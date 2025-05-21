@@ -1,0 +1,58 @@
+{% extends 'base.html' %} {% block content %}
+<h2 class="mb-4">Mes abonnements</h2>
+
+<a href="{% url 'abonnement_create' %}" class="btn btn-primary mb-4"
+  >Ajouter un abonnement</a
+>
+
+{% if abonnements %}
+<table class="table table-striped table-bordered">
+  <thead class="table-dark">
+    <tr>
+      <th>#</th>
+      <th>Véhicule</th>
+      <th>Date début</th>
+      <th>Date fin</th>
+      <th>Type</th>
+      <th>Actif ?</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for abonnement in abonnements %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ abonnement.vehicule }}</td>
+      <td>{{ abonnement.date_debut|date:"j F Y" }}</td>
+      <td>{{ abonnement.date_fin|date:"j F Y" }}</td>
+      <td>{{ abonnement.type }}</td>
+      <td>{{ abonnement.actif }}</td>
+      <td>
+        <a
+          href="{% url 'abonnement_detail' abonnement.pk %}"
+          class="btn btn-sm btn-outline-info"
+          >Voir</a
+        >
+        <a
+          href="{% url 'abonnement_update' abonnement.pk %}"
+          class="btn btn-sm btn-outline-warning"
+          >Modifier</a
+        >
+        <a
+          href="{% url 'abonnement_delete' abonnement.pk %}"
+          class="btn btn-sm btn-outline-danger"
+          >Supprimer</a
+        >
+        <a
+          href="{% url 'paiement_list_par_abonnement' abonnement.pk %}"
+          class="btn btn-sm btn-outline-danger"
+          >Paiements</a
+        >
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>Aucun abonnement enregistré.</p>
+{% endif %} {% endblock %}

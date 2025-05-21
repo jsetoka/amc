@@ -1,0 +1,18 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<h1 class="text-primary">Paiement en cours</h1>
+
+<div>
+  <input
+    id="access_token"
+    type="hidden"
+    name="access_token"
+    value="{{ access_token }}"
+  />
+  <input id="apiuser" type="hidden" name="apiuser" value="{{ apiuser }}" />
+  <p id="resultat">Statut initial</p>
+
+  <br />
+  <button onclick="verifierPaiement()">Vérifier le paiement</button>
+  <script src="{% static 'js/momoapi.js' %}"></script>
+  {% endblock %}
+</div>

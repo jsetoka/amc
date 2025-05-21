@@ -1,0 +1,53 @@
+{% extends 'base.html' %} {% block content %}
+<h2 class="mb-4">Mes diagnostics</h2>
+
+<a href="{% url 'diagnostic_create' vehicule.pk %}" class="btn btn-primary mb-4"
+  >Ajouter un diagnostic</a
+>
+
+{% if diagnostics %}
+<table class="table table-striped table-bordered">
+  <thead class="table-dark">
+    <tr>
+      <th>#</th>
+      <th>Date envoi</th>
+      <th>Etat</th>
+      <th>Véhicule</th>
+      <th>Fichier</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for diagnostic in diagnostics %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ diagnostic.date_envoi|date:"j F Y" }}</td>
+      <td>{{ diagnostic.etat }}</td>
+      <td>{{ diagnostic.vehicule }}</td>
+      <td>{{ diagnostic.fichier }}</td>
+      <td>
+        <a
+          href="{% url 'diagnostic_detail' diagnostic.pk %}"
+          class="btn btn-sm btn-outline-info"
+          >Voir</a
+        >
+        {% comment %}
+        <a
+          href="{% url 'diagnostic_update' diagnostic.pk %}"
+          class="btn btn-sm btn-outline-warning"
+          >Modifier</a
+        >
+        {% endcomment %}
+        <a
+          href="{% url 'diagnostic_delete' diagnostic.pk %}"
+          class="btn btn-sm btn-outline-danger"
+          >Supprimer</a
+        >
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>Aucun diagnostic enregistré.</p>
+{% endif %} {% endblock %}

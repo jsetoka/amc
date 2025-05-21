@@ -1,0 +1,42 @@
+{% extends 'base.html' %} {% block content %}
+<h2>{% if abonnement %}Modifier{% else %}Ajouter{% endif %} un abonnement</h2>
+<form method="post">
+  {% csrf_token %}
+
+  <div class="mb-3">
+    <label for="{{ form.vehicule.id_for_label }}" class="form-label"
+      >Véhicule :
+    </label>
+    {{ form.vehicule }} {% if form.vehicule.errors %}
+    <div class="text-danger">{{ form.vehicule.errors }}</div>
+    {% endif %}
+  </div>
+
+  <div class="mb-3">
+    <label for="{{ form.type.id_for_label }}" class="form-label">Type : </label>
+    {{ form.type }} {% if form.type.errors %}
+    <div class="text-danger">{{ form.type.errors }}</div>
+    {% endif %}
+  </div>
+
+  <div class="mb-3">
+    <label for="{{ form.actif.id_for_label }}" class="form-label"
+      >Actif ?
+    </label>
+    {{ form.actif }} {% if form.actif.errors %}
+    <div class="text-danger">{{ form.actif.errors }}</div>
+    {% endif %}
+  </div>
+
+  <div class="mb-3">
+    <label for="{{ form.methode_paiement.id_for_label }}" class="form-label">
+      Méthode de paiement :
+    </label>
+    {{ form.methode_paiement }} {% if form.methode_paiement.errors %}
+    <div class="text-danger">{{ form.methode_paiement.errors }}</div>
+    {% endif %}
+  </div>
+
+  <button type="submit" class="btn btn-success">Enregistrer</button>
+  {% endblock %}
+</form>

@@ -1,0 +1,13 @@
+{% extends 'base.html' %} {% block content %}
+<h2>Détails du véhicule</h2>
+<p><strong>Marque :</strong> {{ vehicles.marque }}</p>
+<p><strong>Modèle :</strong> {{ vehicles.modele }}</p>
+<p><strong>Numéro de chassis :</strong> {{ vehicles.numero_chassis }}</p>
+<p><strong>Année :</strong> {{ vehicles.annee }}</p>
+
+<a href="{% url 'vehicle_update' vehicles.pk %}" class="btn btn-warning"
+  >Modifier</a
+>
+<a href="{% url 'vehicle_delete' vehicles.pk %}" class="btn btn-danger">Supprimer</a
+>
+{% endblock %}
