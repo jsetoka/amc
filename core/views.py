@@ -7,7 +7,10 @@ from django.contrib.auth.decorators import user_passes_test
 from dateutil.relativedelta import relativedelta
 from datetime import date
 
-from core.models import Vehicule, Abonnement, Diagnostic, Paiement
+from django.shortcuts import get_object_or_404
+from core.form import DiagnosticForm, PaiementForm, ProtocoleForm, DiagnosticForm, VehicleForm, AbonnementForm
+
+from core.models import Vehicule, Abonnement, Diagnostic, Paiement, Protocole
 from diag import settings
 
 from .form import CustomUserCreationForm
@@ -48,9 +51,6 @@ def deconnexion(request):
 
 
 ################################################################################
-from django.shortcuts import get_object_or_404
-from core.form import VehicleForm
-
 
 def vehicle_list(request):
     vehicles = Vehicule.objects.filter(utilisateur=request.user)
@@ -88,8 +88,6 @@ def vehicle_delete(request, pk):
     return render(request, 'vehicules/confirm_delete.html', {'vehicle': vehicle})
 
 ################################################################################
-from django.shortcuts import get_object_or_404
-from core.form import AbonnementForm
 
 def abonnement_list_par_vehicule(request, vehicule_id):
     vehicule = get_object_or_404(Vehicule, pk=vehicule_id, utilisateur=request.user)
@@ -143,6 +141,7 @@ def abonnement_detail(request, pk):
 def abonnement_create(request):
     form = AbonnementForm(request.POST or None, user=request.user)
     if form.is_valid():
+        phone = request.POST.get("phone")
         abonnement = form.save(commit=False)
         abonnement.utilisateur = request.user
         methode = form.cleaned_data['methode_paiement']
@@ -150,9 +149,9 @@ def abonnement_create(request):
 
         if methode == 'mtn':
             montant = str(abonnement.type.montant)
-            res = requesttopay(montant, "242065091111", "Payer Message", "Note")
+            res = requesttopay(montant, phone, "Payer Message", "Note")
 
-            if res.get('status_code') == 202:
+            if res and res.get('status_code') == 202:
                 # Sauvegarde des infos pour vérification ultérieure
                 abonnement.apiuser = res.get('apiuser')
                 abonnement.token = res.get('token')
@@ -181,10 +180,6 @@ def abonnement_delete(request, pk):
 
 
 ################################################################################
-from django.shortcuts import get_object_or_404
-from core.form import PaiementForm
-
-
 def paiement_list_par_abonnement(request, abonnement_id):
     abonnement = get_object_or_404(Abonnement, pk=abonnement_id)
     paiements = Paiement.objects.filter(abonnement=abonnement)
@@ -231,9 +226,6 @@ def paiement_delete(request, pk):
 
 
 ################################################################################
-from django.shortcuts import get_object_or_404
-from core.form import DiagnosticForm
-
 
 # def diagnostic_list(request):
 #     diagnostics = Diagnostic.objects.filter(utilisateur=request.user)
@@ -297,6 +289,76 @@ def diagnostic_update_file(request, pk):
         diagnostic.save()
     return redirect('diagnostic_detail', pk=pk)
 
+################################################################################
+
+
+# def protocole_list(request):
+#     protocoles = Diagnostic.objects.filter(utilisateur=request.user)
+#     return render(request, 'protocoles/list.html', {'protocoles': protocoles})  
+
+def protocole_list_par_diagnostic(request, diagnostic_id):
+    diagnostic = get_object_or_404(Diagnostic, pk=diagnostic_id)
+    protocoles = Protocole.objects.filter(diagnostic=diagnostic)
+    return render(request, 'protocoles/list.html', {
+        'diagnostic': diagnostic,
+        'protocoles': protocoles
+    })
+
+def protocole_detail(request, pk):
+    protocole = get_object_or_404(Protocole, pk=pk)
+    return render(request, 'protocoles/detail.html', {'protocole': protocole})
+
+def protocole_create(request, diagnostic_id):
+    diagnostic = get_object_or_404(Diagnostic, pk=diagnostic_id)
+    print(diagnostic, diagnostic_id)
+    form = ProtocoleForm(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        protocole = form.save(commit=False)
+        protocole.diagnostic = diagnostic
+        protocole.save()
+        diagnostic.status="Traité"
+        diagnostic.save()
+        return redirect('protocole_list_par_diagnostic', diagnostic_id=diagnostic.id)
+    return render(request, 'protocoles/form.html', {'form': form, 'diagnostic':diagnostic})
+
+def protocole_update(request, pk):
+    protocole = get_object_or_404(Protocole, pk=pk)
+    form = DiagnosticForm(request.POST or None, request.FILES or None, instance=protocole)
+    if form.is_valid():
+        form.save()
+        # protocole.diagnostic.status="Traité"
+        # protocole.diagnostic.save()
+        return redirect('protocole_detail', pk=pk)
+    return render(request, 'protocoles/form.html', {'form': form, 'protocole':protocole})
+
+def protocole_delete(request, pk):
+    protocole = get_object_or_404(Protocole, pk=pk)
+    if request.method == 'POST':
+        protocole.delete()
+        return redirect('protocole_list_par_diagnostic', diagnostic_id=protocole.diagnostic.id)
+    return render(request, 'protocoles/confirm_delete.html', {'protocole': protocole})
+
+def protocole_delete_file(request, pk):
+    protocole = get_object_or_404(Protocole, pk=pk)
+    if protocole.fichier:
+        # Supprimer le fichier du disque
+        protocole.fichier.delete(save=False)
+        # Nettoyer le champ
+        protocole.fichier = None
+        protocole.save()
+    return redirect('protocole_detail', pk=pk)
+
+def protocole_update_file(request, pk):
+    protocole = get_object_or_404(Protocole, pk=pk)
+    if request.method == 'POST' and request.FILES.get('fichier'):
+        # Supprimer l’ancien fichier
+        if protocole.fichier:
+            protocole.fichier.delete(save=False)
+        # Enregistrer le nouveau
+        protocole.fichier = request.FILES['fichier']
+        protocole.save()
+    return redirect('protocole_detail', pk=pk)
+
 
 
 ##########################################################
@@ -325,9 +387,6 @@ def creer_utilisateur(request):
 
 import uuid
 import requests
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-
 
 def momopay(request, mp=""):
     return render(request, 'momopay.html')
@@ -387,12 +446,10 @@ def access_token(url, apiuser, apikey, oask):
         "Ocp-Apim-Subscription-Key": oask
     }
     response = requests.post(url, headers=headers)
-    print ('jojo',response.json())
     try:
         if response.status_code == 200:
             token_data = response.json()
             token_str = token_data.get("access_token")  # ou "token", selon l'API
-            print ('sylva',token_str)
             return token_str
         else:
             return JsonResponse({"error": "Échec d'obtention du token", "details": response.text})
@@ -444,7 +501,6 @@ def requesttopay(montant="1400", phone="242065091111", payermessage="Payer Messa
         "X-Target-Environment":"sandbox",
         "Ocp-Apim-Subscription-Key": oask
     }
-    print(headers)
     body = {
         "amount": montant,
         "currency":"EUR",

@@ -31,13 +31,19 @@
           class="btn btn-sm btn-outline-info"
           >Voir</a
         >
-        {% comment %}
+        {% if diagnostic.protocole %}
         <a
-          href="{% url 'diagnostic_update' diagnostic.pk %}"
+          href="{% url 'protocole_detail' diagnostic.protocole.pk %}"
           class="btn btn-sm btn-outline-warning"
-          >Modifier</a
+          >Protocole</a
         >
-        {% endcomment %}
+        {% else %}
+        <a
+          href="{% url 'protocole_create' diagnostic.pk %}"
+          class="btn btn-sm btn-outline-warning"
+          >Protocole</a
+        >
+        {% endif %}
         <a
           href="{% url 'diagnostic_delete' diagnostic.pk %}"
           class="btn btn-sm btn-outline-danger"

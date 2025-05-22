@@ -41,16 +41,32 @@
           class="btn btn-sm btn-outline-danger"
           >Supprimer</a
         >
-        <a
-          href="{% url 'diagnostic_list_par_vehicule' vehicle.pk %}"
-          class="btn btn-sm btn-outline-danger"
-          >Diagnostics</a
-        >
-        <a
-          href="{% url 'abonnement_list_par_vehicule' vehicle.pk %}"
-          class="btn btn-sm btn-outline-danger"
-          >Abonnements</a
-        >
+        {% if vehicle.diagnostic %}
+          <a
+            href="{% url 'diagnostic_list_par_vehicule' vehicle.pk %}"
+            class="btn btn-sm btn-outline-danger"
+            >Diagnostics</a
+          >
+        {% else %}
+          <a
+            href="{% url 'diagnostic_create' vehicle.pk %}"
+            class="btn btn-sm btn-outline-danger"
+            >Diagnostics</a
+          >
+        {% endif %}
+        {% if vehicle.abonnement %}
+          <a
+            href="{% url 'abonnement_list_par_vehicule' vehicle.pk %}"
+            class="btn btn-sm btn-outline-danger"
+            >Abonnements</a
+          >
+        {% else %}
+          <a
+            href="{% url 'abonnement_create' %}"
+            class="btn btn-sm btn-outline-danger"
+            >Abonnements</a
+          >
+        {% endif %}
       </td>
     </tr>
     {% endfor %}

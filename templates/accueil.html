@@ -1,4 +1,50 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
-<h1 class="text-primary">Bienvenue sur mon site Django avec Bootstrap 5</h1>
+{% extends 'base.html' %}
 
+{% block content %}
+<div class="container mt-5">
+  <h1 class="text-center mb-4">Bienvenue dans notre Garage Auto-Diagnostic</h1>
+
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <p class="lead">Choisissez une formule d'abonnement adaptée à vos besoins</p>
+    </div>
+  </div>
+
+  <div class="row text-center mb-5">
+    <div class="col-md-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h3 class="card-title">Mensuel</h3>
+          <p class="card-text">10 000 FCFA</p>
+          <a href="{% url 'abonnement_create' %}?type=mensuel" class="btn btn-primary">Souscrire</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h3 class="card-title">Trimestriel</h3>
+          <p class="card-text">25 000 FCFA</p>
+          <a href="{% url 'abonnement_create' %}?type=trimestriel" class="btn btn-primary">Souscrire</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h3 class="card-title">Annuel</h3>
+          <p class="card-text">90 000 FCFA</p>
+          <a href="{% url 'abonnement_create' %}?type=annuel" class="btn btn-primary">Souscrire</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center">
+    <h4>Vous avez un véhicule à enregistrer ?</h4>
+    <a href="{% url 'vehicle_create' %}" class="btn btn-outline-success mt-2">Enregistrer un véhicule</a>
+  </div>
+</div>
 {% endblock %}

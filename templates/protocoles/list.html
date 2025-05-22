@@ -1,0 +1,49 @@
+{% extends 'base.html' %} {% block content %}
+<h2 class="mb-4">Mes protocoles</h2>
+
+<a href="{% url 'protocole_create' diagnostic.pk %}" class="btn btn-primary mb-4"
+  >Ajouter un protocole</a
+>
+
+{% if protocoles %}
+<table class="table table-striped table-bordered">
+  <thead class="table-dark">
+    <tr>
+      <th>#</th>
+      <th>Date envoi</th>
+      <th>Diagnostic</th>
+      <th>Fichier</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for protocole in protocoles %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ protocole.date_envoi|date:"j F Y" }}</td>
+      <td>{{ protocole.diagnostic }}</td>
+      <td>{{ protocole.fichier }}</td>
+      <td>
+        <a
+          href="{% url 'protocole_detail' protocole.pk %}"
+          class="btn btn-sm btn-outline-info"
+          >Voir</a
+        >
+        <a
+          href="{% url 'protocole_create' protocole.pk %}"
+          class="btn btn-sm btn-outline-warning"
+          >Protocole</a
+        >
+        <a
+          href="{% url 'protocole_delete' protocole.pk %}"
+          class="btn btn-sm btn-outline-danger"
+          >Supprimer</a
+        >
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>Aucun protocole enregistré.</p>
+{% endif %} {% endblock %}

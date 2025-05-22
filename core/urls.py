@@ -39,6 +39,15 @@ urlpatterns = [
     path('diagnostics/<int:pk>/supprimer-fichier/', views.diagnostic_delete_file, name='diagnostic_delete_file'),
     path('diagnostics/<int:pk>/modifier-fichier/', views.diagnostic_update_file, name='diagnostic_update_file'),
 
+    #path('protocoles/', views.protocole_list, name='protocole_list'),
+    path('diagnostics/<int:diagnostic_id>/protocoles/', views.protocole_list_par_diagnostic, name='protocole_list_par_diagnostic'),
+    path('protocoles/ajouter/<int:diagnostic_id>', views.protocole_create, name='protocole_create'),
+    path('protocoles/<int:pk>/', views.protocole_detail, name='protocole_detail'),
+    path('protocoles/<int:pk>/modifier/', views.protocole_update, name='protocole_update'),
+    path('protocoles/<int:pk>/supprimer/', views.protocole_delete, name='protocole_delete'),
+    path('protocoles/<int:pk>/supprimer-fichier/', views.protocole_delete_file, name='protocole_delete_file'),
+    path('protocoles/<int:pk>/modifier-fichier/', views.protocole_update_file, name='protocole_update_file'),
+
 
     path('momopay/', views.momopay, name='momopay'),
     path('momopay/creer_utilisateur/', views.creer_utilisateur, name='creer_utilisateur'),

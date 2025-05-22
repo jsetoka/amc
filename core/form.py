@@ -38,7 +38,7 @@ class CustomUserCreationForm(UserCreationForm):
 
 
 
-from core.models import Vehicule, Abonnement, Diagnostic, Paiement
+from core.models import Vehicule, Abonnement, Diagnostic, Paiement, Protocole
 class VehicleForm(forms.ModelForm):
     class Meta:
         model = Vehicule
@@ -59,8 +59,18 @@ class AbonnementForm(forms.ModelForm):
     methode_paiement = forms.ChoiceField(
         choices=METHODE_CHOIX,
         widget=forms.RadioSelect,
-        required=False
+        required=False,
+        label="Méthode de paiement"
     )
+
+    phone = forms.CharField(
+        required=False,
+        label="Numéro MTN MoMo",
+        widget=forms.TextInput(attrs={
+            "placeholder": "Ex : 24206XXXXXX"
+        })
+    )
+
     class Meta:
         model = Abonnement
         fields = ['type', 'vehicule', 'actif']  # ou selon ton modèle
@@ -71,6 +81,14 @@ class AbonnementForm(forms.ModelForm):
         if user:
             self.fields['vehicule'].queryset = Vehicule.objects.filter(utilisateur=user)
    
+    def clean(self):
+        cleaned_data = super().clean()
+        methode = cleaned_data.get("methode_paiement")
+        phone = cleaned_data.get("phone")
+
+        if methode == "mtn" and not phone:
+            self.add_error("phone", "Le numéro MTN MoMo est requis pour ce mode de paiement.")
+
 
 class PaiementForm(forms.ModelForm):
     class Meta:
@@ -83,3 +101,8 @@ class DiagnosticForm(forms.ModelForm):
         model = Diagnostic
         fields = ['fichier']
 
+
+class ProtocoleForm(forms.ModelForm):
+    class Meta:
+        model = Protocole
+        fields = ['fichier']
