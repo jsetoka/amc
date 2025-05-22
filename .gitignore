@@ -16,3 +16,6 @@ mon_env/
 # OS
 .DS_Store
 Thumbs.db
+
+# Ignorer le fichier de configuration Django
+*/settings.py

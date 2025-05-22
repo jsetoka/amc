@@ -58,8 +58,8 @@ def vehicle_list(request):
 
 #@user_passes_test(is_client, login_url='login')
 def vehicle_detail(request, pk):
-    vehicles = get_object_or_404(Vehicule, pk=pk, utilisateur=request.user)
-    return render(request, 'vehicules/detail.html', {'vehicles': vehicles})
+    vehicle = get_object_or_404(Vehicule, pk=pk, utilisateur=request.user)
+    return render(request, 'vehicules/detail.html', {'vehicle': vehicle})
 
 
 def vehicle_create(request):
@@ -273,7 +273,7 @@ def diagnostic_delete(request, pk):
     diagnostic = get_object_or_404(Diagnostic, pk=pk)
     if request.method == 'POST':
         diagnostic.delete()
-        return redirect('diagnostic_list_par_vehicule')
+        return redirect('diagnostic_list_par_vehicule', vehicule_id=diagnostic.vehicule.id)
     return render(request, 'diagnostics/confirm_delete.html', {'diagnostic': diagnostic})
 
 def diagnostic_delete_file(request, pk):
@@ -437,8 +437,8 @@ def requesttopay(montant="1400", phone="242065091111", payermessage="Payer Messa
     user = create_momo_user()
     url = settings.URL_SITE + "/collection/v1_0/requesttopay"
     oask=settings.API_KEY_MOMO
-    apiuser=user['apiuser']
-    apikey=user['apikey']
+    apiuser=user.get('apiuser')
+    apikey=user.get('apikey')
     token = access_token(url, apiuser, apikey, oask)
 
     headers = {
