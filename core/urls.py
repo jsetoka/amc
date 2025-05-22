@@ -46,5 +46,7 @@ urlpatterns = [
     path('momopay/requesttopay/', views.requesttopay, name='requesttopay'),
     path('momopay/paymentstatus/', views.paymentstatus, name='paymentstatus'),
     path('momopay/<str:mp>/', views.momopay, name='momopay'),
+    path('api/verifier_paiement/<int:abonnement_id>/', views.verifier_paiement, name='verifier_paiement'),
+    path('paiement_en_cours/<int:abonnement_id>/', views.paiement_en_cours, name='paiement_en_cours'),
 
 ]

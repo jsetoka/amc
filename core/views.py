@@ -107,35 +107,59 @@ def abonnement_detail(request, pk):
     abonnements = get_object_or_404(Abonnement, pk=pk, utilisateur=request.user)
     return render(request, 'abonnements/detail.html', {'abonnements': abonnements})
 
+# def abonnement_create(request):
+#     form = AbonnementForm(request.POST or None, user=request.user)
+#     if form.is_valid():
+#         abonnement = form.save(commit=False)
+#         abonnement.utilisateur = request.user
+#         methode = form.cleaned_data['methode_paiement']
+#         if methode == 'mtn':
+#             montant=str(abonnement.type.montant)
+#             res = requesttopay(montant, "242065091111", "Payer Message", "Note")
+
+#             if (res['status_code']==202):
+#                 apiuser = res.get('apiuser')
+#                 token = res.get('token')
+#                 res2 = paymentstatus(apiuser, token)
+#                 reponse=res2.json()
+#                 print(reponse)
+#                 if (reponse.get('status')=='SUCCESSFUL'):
+#                     abonnement.actif=True
+#                     abonnement.date_fin = date.today() + relativedelta(months=abonnement.type.duree)
+#                     abonnement.save()
+
+#                     # ✅ Enregistrement du paiement
+#                     Paiement.objects.create(
+#                         abonnement=abonnement,
+#                         montant=abonnement.type.montant,
+#                         methode="MTN Money",
+#                         statut="SUCCESSFUL"
+#                     )
+#         return redirect('abonnement_list')
+#     form.initial['utilisateur'] = request.user
+#     return render(request, 'abonnements/create.html', {'form': form})
+
+
 def abonnement_create(request):
     form = AbonnementForm(request.POST or None, user=request.user)
     if form.is_valid():
         abonnement = form.save(commit=False)
         abonnement.utilisateur = request.user
         methode = form.cleaned_data['methode_paiement']
+        abonnement.save()  # ⏳ On sauve même en attente
+
         if methode == 'mtn':
-            montant=str(abonnement.type.montant)
+            montant = str(abonnement.type.montant)
             res = requesttopay(montant, "242065091111", "Payer Message", "Note")
 
-            if (res['status_code']==202):
-                apiuser = res.get('apiuser')
-                token = res.get('token')
-                res2 = paymentstatus(apiuser, token)
-                reponse=res2.json()
-                print(reponse)
-                if (reponse.get('status')=='SUCCESSFUL'):
-                    abonnement.actif=True
-                    abonnement.date_fin = date.today() + relativedelta(months=abonnement.type.duree)
-                    abonnement.save()
-
-                    # ✅ Enregistrement du paiement
-                    Paiement.objects.create(
-                        abonnement=abonnement,
-                        montant=abonnement.type.montant,
-                        methode="MTN Money",
-                        statut="SUCCESSFUL"
-                    )
-        return redirect('abonnement_list')
+            if res.get('status_code') == 202:
+                # Sauvegarde des infos pour vérification ultérieure
+                abonnement.apiuser = res.get('apiuser')
+                abonnement.token = res.get('token')
+                abonnement.statut_paiement = 'PENDING'
+                abonnement.save()
+                
+                return redirect('paiement_en_cours', abonnement_id=abonnement.id)
     form.initial['utilisateur'] = request.user
     return render(request, 'abonnements/create.html', {'form': form})
 
@@ -463,10 +487,42 @@ def paymentstatus(apiuser, token):
         return JsonResponse({"error": str(e)}, status=500)
     return response
 
-    # try:
-    #     transaction = Transaction.objects.get(id=transaction_id)
-    # except Transaction.DoesNotExist:
-    #     return JsonResponse({"status": "INCONNU"})
 
-    # return JsonResponse({"status": transaction.statut})
+def verifier_paiement(request, abonnement_id):
+    try:
+        abonnement = Abonnement.objects.get(id=abonnement_id)
 
+        # Ne pas réappeler si déjà payé
+        if abonnement.actif:
+            return JsonResponse({'status': 'SUCCESSFUL'})
+
+        # Appel API pour voir si le paiement a abouti
+        res = paymentstatus(abonnement.apiuser, abonnement.token)
+        reponse = res.json()
+        statut = reponse.get('status')
+
+        if statut == 'SUCCESSFUL':
+            abonnement.actif = True
+            abonnement.statut_paiement = 'SUCCESSFUL'
+            abonnement.date_fin = date.today() + relativedelta(months=abonnement.type.duree)
+            abonnement.save()
+
+            # Enregistrement du paiement
+            Paiement.objects.create(
+                abonnement=abonnement,
+                montant=abonnement.type.montant,
+                methode="MTN Money",
+                statut="SUCCESSFUL"
+            )
+        elif statut == 'FAILED':
+            abonnement.statut_paiement = 'FAILED'
+            abonnement.save()
+
+        return JsonResponse({'status': statut})
+
+    except Abonnement.DoesNotExist:
+        return JsonResponse({'status': 'ERROR'})
+    
+def paiement_en_cours(request, abonnement_id):
+    abonnement = get_object_or_404(Abonnement, id=abonnement_id)
+    return render(request, 'abonnements/paiement_en_cours.html', {'abonnement': abonnement})

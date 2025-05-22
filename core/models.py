@@ -37,6 +37,9 @@ class Abonnement(models.Model):
     date_debut = models.DateField(auto_now_add=True)
     date_fin = models.DateField(blank=True, null=True)  # ✅ nouveau champ
     actif = models.BooleanField(default=False)
+    apiuser = models.CharField(max_length=100, blank=True, null=True)
+    token = models.TextField(blank=True, null=True)
+    statut_paiement = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return f"Abonnement {self.type} - {self.utilisateur.username}"
