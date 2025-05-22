@@ -390,7 +390,7 @@ def access_token(url, apiuser, apikey, oask):
         response = requests.post(url, headers=headers)
         try:
             data = response.json()
-            access_token = data["access_token"]
+            access_token = data.get('access_token')
             return access_token
         except ValueError:
             data = {"raw_response": response.text}
@@ -440,7 +440,7 @@ def requesttopay(montant="1400", phone="242065091111", payermessage="Payer Messa
     apiuser=user.get('apiuser')
     apikey=user.get('apikey')
     token = access_token(url, apiuser, apikey, oask)
-
+    print(token)
     headers = {
         "Content-Type": "application/json",
         "Authorization": 'Bearer ' + token,
