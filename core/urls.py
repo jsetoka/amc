@@ -1,12 +1,19 @@
 from django.urls import path
+from django.contrib.auth import views as auth_views
 
 from . import views
 
 urlpatterns = [
     path('', views.index, name="index"),
-    path('signup/', views.inscription, name='signup'),
-    path('login/', views.connexion, name='login'),
-    path('logout/', views.deconnexion, name='logout'),
+    path('accounts/signup/', views.inscription, name='signup'),
+    path('accounts/login/', views.connexion, name='login'),
+    path('accounts/logout/', views.deconnexion, name='logout'),
+    path('accounts/profile/', views.profile, name='profile'),
+
+    path('mot-de-passe-oublie/', auth_views.PasswordResetView.as_view(template_name='registration/password_reset_form.html'), name='password_reset'),
+    path('mot-de-passe-envoye/', auth_views.PasswordResetDoneView.as_view(template_name='registration/password_reset_done.html'), name='password_reset_done'),
+    path('reinitialiser/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='registration/password_reset_confirm.html'), name='password_reset_confirm'),
+    path('reinitialisation-terminee/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete.html'), name='password_reset_complete'),
 
 
     path('vehicules/', views.vehicle_list, name='vehicle_list'),

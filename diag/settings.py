@@ -143,6 +143,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # ALLOWED_HOSTS = ['jobetoka.pythonanywhere.com']
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Pour développement
+
+# Pour production (ex. avec Gmail)
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'ton.email@gmail.com'
+# EMAIL_HOST_PASSWORD = 'ton_mot_de_passe'
+
 
 # settings.py
 URL_SITE = "https://sandbox.momodeveloper.mtn.com"

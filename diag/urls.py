@@ -25,6 +25,7 @@ from django.urls import include, path
 
 urlpatterns = [
     path("", include("core.urls")),
+    path('accounts/', include('django.contrib.auth.urls')),  # <-- Ajoute ceci
     path("admin/", admin.site.urls),
 ]
 

@@ -5,7 +5,7 @@
   >Ajouter un diagnostic</a
 >
 
-{% if diagnostics %}
+{% if page_obj %}
 <table class="table table-striped table-bordered">
   <thead class="table-dark">
     <tr>
@@ -18,7 +18,7 @@
     </tr>
   </thead>
   <tbody>
-    {% for diagnostic in diagnostics %}
+    {% for diagnostic in page_obj %}
     <tr>
       <td>{{ forloop.counter }}</td>
       <td>{{ diagnostic.date_envoi|date:"j F Y" }}</td>
@@ -54,6 +54,37 @@
     {% endfor %}
   </tbody>
 </table>
+
+
+
+
+<div class="pagination mt-4">
+  <nav aria-label="Pagination">
+    <ul class="pagination">
+      {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.previous_page_number }}">←</a>
+        </li>
+      {% endif %}
+
+      {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+          <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+          <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+        {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}">→</a>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+</div>
+
+
 {% else %}
 <p>Aucun diagnostic enregistré.</p>
 {% endif %} {% endblock %}

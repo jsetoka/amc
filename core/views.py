@@ -6,6 +6,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
 from dateutil.relativedelta import relativedelta
 from datetime import date
+from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 
 from django.shortcuts import get_object_or_404
 from core.form import DiagnosticForm, PaiementForm, ProtocoleForm, DiagnosticForm, VehicleForm, AbonnementForm
@@ -48,6 +50,10 @@ def deconnexion(request):
     logout(request)
     return redirect('login')
 
+
+@login_required
+def profile(request):
+    return render(request, 'registration/profile.html', {'user': request.user})
 
 
 ################################################################################
@@ -137,7 +143,7 @@ def abonnement_detail(request, pk):
 #     form.initial['utilisateur'] = request.user
 #     return render(request, 'abonnements/create.html', {'form': form})
 
-
+@login_required
 def abonnement_create(request):
     form = AbonnementForm(request.POST or None, user=request.user)
     if form.is_valid():
@@ -234,9 +240,14 @@ def paiement_delete(request, pk):
 def diagnostic_list_par_vehicule(request, vehicule_id):
     vehicule = get_object_or_404(Vehicule, pk=vehicule_id, utilisateur=request.user)
     diagnostics = Diagnostic.objects.filter(vehicule=vehicule)
+
+    paginator = Paginator(diagnostics, 5)  # 5 diagnostics par page
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     return render(request, 'diagnostics/list.html', {
         'vehicule': vehicule,
-        'diagnostics': diagnostics
+        'page_obj': page_obj
     })
 
 def diagnostic_detail(request, pk):

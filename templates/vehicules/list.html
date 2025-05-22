@@ -41,7 +41,7 @@
           class="btn btn-sm btn-outline-danger"
           >Supprimer</a
         >
-        {% if vehicle.diagnostic %}
+        {% if vehicle.diagnostic_set.count > 0 %}
           <a
             href="{% url 'diagnostic_list_par_vehicule' vehicle.pk %}"
             class="btn btn-sm btn-outline-danger"
@@ -54,7 +54,7 @@
             >Diagnostics</a
           >
         {% endif %}
-        {% if vehicle.abonnement %}
+        {% if vehicle.abonnement_set.count %}
           <a
             href="{% url 'abonnement_list_par_vehicule' vehicle.pk %}"
             class="btn btn-sm btn-outline-danger"
