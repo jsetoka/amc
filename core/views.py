@@ -386,16 +386,16 @@ def access_token(url, apiuser, apikey, oask):
         "Authorization": 'Basic ' + token,
         "Ocp-Apim-Subscription-Key": oask
     }
+    response = requests.post(url, headers=headers)
+    print ('jojo',response.json())
     try:
-        response = requests.post(url, headers=headers)
-        try:
-            data = response.json()
-            access_token = data.get('access_token')
-            return access_token
-        except ValueError:
-            data = {"raw_response": response.text}
-
-        return JsonResponse(data, status=response.status_code)
+        if response.status_code == 200:
+            token_data = response.json()
+            token_str = token_data.get("access_token")  # ou "token", selon l'API
+            print ('sylva',token_str)
+            return token_str
+        else:
+            return JsonResponse({"error": "Échec d'obtention du token", "details": response.text})
 
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
@@ -435,7 +435,7 @@ def requesttopay(montant="1400", phone="242065091111", payermessage="Payer Messa
     apiuser=user.get('apiuser')
     apikey=user.get('apikey')
     token = access_token(url, apiuser, apikey, oask)
-    print(token)
+
     headers = {
         "Content-Type": "application/json",
         "Authorization": "Bearer " + token,
@@ -444,6 +444,7 @@ def requesttopay(montant="1400", phone="242065091111", payermessage="Payer Messa
         "X-Target-Environment":"sandbox",
         "Ocp-Apim-Subscription-Key": oask
     }
+    print(headers)
     body = {
         "amount": montant,
         "currency":"EUR",
