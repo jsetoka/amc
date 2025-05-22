@@ -422,11 +422,6 @@ def create_momo_user():
             apikey = apiuser(url, reference_id, key)
         else:
             apikey=""
-        # return JsonResponse({
-        #     "referenceId": reference_id,
-        #     "status_code": response.status_code,
-        #     "response": response.text
-        # }, status=response.status_code)
 
         return ({'apiuser': reference_id, 'apikey': apikey})
     except Exception as e:
@@ -443,7 +438,7 @@ def requesttopay(montant="1400", phone="242065091111", payermessage="Payer Messa
     print(token)
     headers = {
         "Content-Type": "application/json",
-        "Authorization": 'Bearer ' + token,
+        "Authorization": "Bearer " + token,
         #"X-Callback-Url": "",
         "X-Reference-Id": apiuser,
         "X-Target-Environment":"sandbox",
