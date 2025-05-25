@@ -57,7 +57,7 @@ def profile(request):
 
 
 ################################################################################
-
+@login_required
 def vehicle_list(request):
     vehicles = Vehicule.objects.filter(utilisateur=request.user)
     return render(request, 'vehicules/list.html', {'vehicles': vehicles})  
@@ -67,7 +67,7 @@ def vehicle_detail(request, pk):
     vehicle = get_object_or_404(Vehicule, pk=pk, utilisateur=request.user)
     return render(request, 'vehicules/detail.html', {'vehicle': vehicle})
 
-
+@login_required
 def vehicle_create(request):
     form = VehicleForm(request.POST or None)
     if form.is_valid():
