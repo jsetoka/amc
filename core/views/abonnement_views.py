@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render, redirect
-from core.form import DiagnosticForm, PaiementForm, ProtocoleForm, DiagnosticForm, VehicleForm, AbonnementForm
+from core.form import AbonnementForm
 from core.models import Abonnement
 
 ################################################################################
