@@ -1,0 +1,9 @@
+{% extends 'base.html' %} {% block content %}
+<h2>Confirmer la suppression</h2>
+<p>Voulez-vous vraiment supprimer le véhicule {{ vehicle }} ?</p>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-danger">Oui, supprimer</button>
+  <a href="{% url 'vehicle_list' %}" class="btn btn-secondary">Annuler</a>
+</form>
+{% endblock %}

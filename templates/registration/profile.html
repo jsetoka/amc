@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4">Mon Profil</h2>
+
+  <div class="card shadow">
+    <div class="card-body">
+      <p><strong>Nom d'utilisateur :</strong> {{ user.username }}</p>
+      <p><strong>Email :</strong> {{ user.email }}</p>
+      <p><strong>Nom :</strong> {{ user.first_name }}</p>
+      <p><strong>Prénom :</strong> {{ user.last_name }}</p>
+
+      <a href="{% url 'password_change' %}" class="btn btn-outline-primary mt-3">Changer mon mot de passe</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
