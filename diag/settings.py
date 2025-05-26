@@ -40,11 +40,11 @@ DEBUG = True
 
 # 🔐 Configuration des hôtes autorisés
 if os.environ.get('RENDER'):
-    ALLOWED_HOSTS = ['amc-8jup.onrender.com']
+    ALLOWED_HOSTS = ['amc-78pm.onrender.com']
 else:
     ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
-ALLOWED_HOSTS = ['amc-8jup.onrender.com'] # à supprimer
+ALLOWED_HOSTS = ['amc-78pm.onrender.com'] # à supprimer
 
 # Application definition
 
