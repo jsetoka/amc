@@ -3,7 +3,6 @@ certifi==2025.4.26
 charset-normalizer==3.4.2
 Django==5.2.1
 idna==3.10
-mysqlclient==2.2.7
 python-dateutil==2.9.0.post0
 requests==2.32.3
 setuptools==80.7.1
@@ -11,3 +10,6 @@ six==1.17.0
 sqlparse==0.5.3
 urllib3==2.4.0
 wheel==0.45.1
+gunicorn
+mysqlclient
+requests
