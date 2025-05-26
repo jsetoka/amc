@@ -1,0 +1,23 @@
+{% extends 'base.html' %} {% block content %}
+<h1>En attente de confirmation de paiement...</h1>
+<p>Ne quittez pas cette page.</p>
+<script>
+  function verifierPaiement() {
+    fetch("/api/verifier_paiement/{{ abonnement.id }}/")
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status === "SUCCESSFUL") {
+          alert("✅ Paiement confirmé !");
+          window.location.href = "/abonnements/";
+        } else if (data.status === "FAILED") {
+          alert("❌ Échec du paiement.");
+          window.location.href = "/abonnements/";
+        } else {
+          console.log("⏳ Paiement en attente...");
+          setTimeout(verifierPaiement, 5000); // Réessayer dans 5 sec
+        }
+      });
+  }
+  verifierPaiement();
+</script>
+{% endblock %}

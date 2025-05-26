@@ -2,6 +2,9 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render, redirect
 from core.form import AbonnementForm
 from core.models import Abonnement
+from core.utils.momopay import requesttopay
+
+
 
 ################################################################################
 
@@ -34,7 +37,6 @@ def abonnement_create(request):
         if methode == 'mtn':
             montant = str(abonnement.type.montant)
             res = requesttopay(montant, phone, "Payer Message", "Note")
-
             if res and res.get('status_code') == 202:
                 # Sauvegarde des infos pour vérification ultérieure
                 abonnement.apiuser = res.get('apiuser')

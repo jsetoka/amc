@@ -2,9 +2,12 @@
 # API MOMO
 ##########################################################
 from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
+
 import json, base64
 import uuid
 import requests
+
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
@@ -173,42 +176,3 @@ def paymentstatus(apiuser, token):
         return JsonResponse({"error": str(e)}, status=500)
     return response
 
-
-def verifier_paiement(request, abonnement_id):
-    try:
-        abonnement = Abonnement.objects.get(id=abonnement_id)
-
-        # Ne pas réappeler si déjà payé
-        if abonnement.actif:
-            return JsonResponse({'status': 'SUCCESSFUL'})
-
-        # Appel API pour voir si le paiement a abouti
-        res = paymentstatus(abonnement.apiuser, abonnement.token)
-        reponse = res.json()
-        statut = reponse.get('status')
-
-        if statut == 'SUCCESSFUL':
-            abonnement.actif = True
-            abonnement.statut_paiement = 'SUCCESSFUL'
-            abonnement.date_fin = date.today() + relativedelta(months=abonnement.type.duree)
-            abonnement.save()
-
-            # Enregistrement du paiement
-            Paiement.objects.create(
-                abonnement=abonnement,
-                montant=abonnement.type.montant,
-                methode="MTN Money",
-                statut="SUCCESSFUL"
-            )
-        elif statut == 'FAILED':
-            abonnement.statut_paiement = 'FAILED'
-            abonnement.save()
-
-        return JsonResponse({'status': statut})
-
-    except Abonnement.DoesNotExist:
-        return JsonResponse({'status': 'ERROR'})
-    
-def paiement_en_cours(request, abonnement_id):
-    abonnement = get_object_or_404(Abonnement, id=abonnement_id)
-    return render(request, 'abonnements/paiement_en_cours.html', {'abonnement': abonnement})

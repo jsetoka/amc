@@ -7,7 +7,6 @@
 # from .accounts_views import *
 # from .abonnement_views import *
 
-from . import momopay_views
 from . import dashboard_views
 from . import vehicule_views
 from . import diagnostic_views

@@ -35,7 +35,7 @@ SECRET_KEY = 'django-insecure-b@eu3a#xb!d@@q0c6!&w#ug)yw5yvirh(mle$mb$amu1zjbwmk
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = []
+
 # ...
 
 # 🔐 Configuration des hôtes autorisés
@@ -45,6 +45,8 @@ else:
     ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 ALLOWED_HOSTS = ['amc-78pm.onrender.com'] # à supprimer
+
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -93,7 +95,7 @@ WSGI_APPLICATION = 'diag.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    'defaults': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'diagnostic',
         'USER': 'diagnostic_user',
@@ -101,7 +103,7 @@ DATABASES = {
         'HOST':'dpg-d0q49huuk2gs73a7omd0-a',
         'PORT':'5432'
     },
-    'mysql': {
+    'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'diagnostic',
         'USER': 'root',

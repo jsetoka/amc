@@ -39,6 +39,8 @@ urlpatterns = [
     path('paiements/<int:pk>/', paiement_views.paiement_detail, name='paiement_detail'),
     path('paiements/<int:pk>/modifier/', paiement_views.paiement_update, name='paiement_update'),
     path('paiements/<int:pk>/supprimer/', paiement_views.paiement_delete, name='paiement_delete'),
+    path('paiement_en_cours/<int:abonnement_id>/', paiement_views.paiement_en_cours, name='paiement_en_cours'),
+    path('api/verifier_paiement/<int:abonnement_id>/', paiement_views.verifier_paiement, name='verifier_paiement'),
 
 
     #path('diagnostics/', views.diagnostic_list, name='diagnostic_list'),
@@ -59,14 +61,5 @@ urlpatterns = [
     path('protocoles/<int:pk>/supprimer-fichier/', protocole_views.protocole_delete_file, name='protocole_delete_file'),
     path('protocoles/<int:pk>/modifier-fichier/', protocole_views.protocole_update_file, name='protocole_update_file'),
 
-
-    path('momopay/', momopay_views.momopay, name='momopay'),
-    path('momopay/creer_utilisateur/', momopay_views.creer_utilisateur, name='creer_utilisateur'),
-    # path('momopay/create-momo-user/', views.create_momo_user, name='create_momo_user'),
-    path('momopay/requesttopay/', momopay_views.requesttopay, name='requesttopay'),
-    path('momopay/paymentstatus/', momopay_views.paymentstatus, name='paymentstatus'),
-    path('momopay/<str:mp>/', momopay_views.momopay, name='momopay'),
-    path('api/verifier_paiement/<int:abonnement_id>/', momopay_views.verifier_paiement, name='verifier_paiement'),
-    path('paiement_en_cours/<int:abonnement_id>/', momopay_views.paiement_en_cours, name='paiement_en_cours'),
-
+ 
 ]
