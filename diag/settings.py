@@ -78,7 +78,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'diag.wsgi.application'
+WSGI_APPLICATION = 'amc.wsgi.application'
 
 
 # Database
