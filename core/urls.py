@@ -1,6 +1,8 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from core.views import * 
+from django.conf import settings
+from django.conf.urls.static import static
 
 from . import views
 
@@ -62,4 +64,4 @@ urlpatterns = [
     path('protocoles/<int:pk>/modifier-fichier/', protocole_views.protocole_update_file, name='protocole_update_file'),
 
  
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

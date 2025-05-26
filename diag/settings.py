@@ -24,8 +24,6 @@ import os
 
 
 
-
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -40,7 +38,6 @@ DEBUG = True
 
 # 🔐 Configuration des hôtes autorisés
 
-print('SYLVANUS', os.environ.get('RENDER'))
 if os.environ.get('RENDER'):
     ALLOWED_HOSTS = ['amc-78pm.onrender.com']
 else:
