@@ -46,7 +46,7 @@ if os.environ.get('RENDER'):
 else:
     ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
-ALLOWED_HOSTS = ['amc-78pm.onrender.com'] # à supprimer
+#ALLOWED_HOSTS = ['amc-78pm.onrender.com'] # à supprimer
 
 # ALLOWED_HOSTS = []
 
@@ -97,7 +97,7 @@ WSGI_APPLICATION = 'diag.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'defaults': {
+    'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'diagnostic',
         'USER': 'diagnostic_user',
@@ -105,7 +105,7 @@ DATABASES = {
         'HOST':'dpg-d0q49huuk2gs73a7omd0-a',
         'PORT':'5432'
     },
-    'default': {
+    'MySQL': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'diagnostic',
         'USER': 'root',
