@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render, redirect
 from core.form import AbonnementForm
-from core.models import Abonnement
+from core.models import Abonnement, Vehicule
 from core.utils.momopay import requesttopay
 
 
