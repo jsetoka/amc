@@ -11,4 +11,5 @@ urllib3==2.4.0
 wheel==0.45.1
 gunicorn
 mysqlclient
+psycopg2-binary
 requests

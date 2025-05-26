@@ -94,6 +94,14 @@ WSGI_APPLICATION = 'diag.wsgi.application'
 
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'diagnostic',
+        'USER': 'diagnostic_user',
+        'PASSWORD':'fpbeX471BNVOjyNvYgydHiE6yVpLtONH',
+        'HOST':'dpg-d0q49huuk2gs73a7omd0-a',
+        'PORT':'5432'
+    },
+    'mysql': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'diagnostic',
         'USER': 'root',
