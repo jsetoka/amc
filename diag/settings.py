@@ -39,6 +39,8 @@ DEBUG = True
 # ...
 
 # 🔐 Configuration des hôtes autorisés
+
+print('SYLVANUS', os.environ.get('RENDER'))
 if os.environ.get('RENDER'):
     ALLOWED_HOSTS = ['amc-78pm.onrender.com']
 else:
@@ -46,7 +48,7 @@ else:
 
 ALLOWED_HOSTS = ['amc-78pm.onrender.com'] # à supprimer
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
 
 # Application definition
 
