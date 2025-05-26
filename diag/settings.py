@@ -35,8 +35,16 @@ SECRET_KEY = 'django-insecure-b@eu3a#xb!d@@q0c6!&w#ug)yw5yvirh(mle$mb$amu1zjbwmk
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [*]
+# ALLOWED_HOSTS = []
+# ...
 
+# 🔐 Configuration des hôtes autorisés
+if os.environ.get('RENDER'):
+    ALLOWED_HOSTS = ['amc-8jup.onrender.com']
+else:
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+
+ALLOWED_HOSTS = ['amc-8jup.onrender.com'] # à supprimer
 
 # Application definition
 
