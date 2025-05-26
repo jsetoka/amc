@@ -16,6 +16,23 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+
+
+# settings.py
+
+import os
+
+# ...
+
+# 🔐 Configuration des hôtes autorisés
+if os.environ.get('RENDER'):
+    ALLOWED_HOSTS = ['amc-8jup.onrender.com']
+else:
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+
+
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
