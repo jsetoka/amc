@@ -35,16 +35,6 @@
           class="btn btn-sm btn-outline-info"
           >Voir</a
         >
-        <a
-          href="{% url 'abonnement_update' abonnement.pk %}"
-          class="btn btn-sm btn-outline-warning"
-          >Modifier</a
-        >
-        <a
-          href="{% url 'abonnement_delete' abonnement.pk %}"
-          class="btn btn-sm btn-outline-danger"
-          >Supprimer</a
-        >
         {% if abonnement.paiement %}
           <a
             href="{% url 'paiement_list_par_abonnement' abonnement.pk %}"

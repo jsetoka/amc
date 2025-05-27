@@ -1,10 +1,5 @@
 {% extends 'base.html' %} {% block content %}
 <h2 class="mb-4">Mes paiements</h2>
-<a
-  href="{% url 'paiement_create' abonnement.pk  %}"
-  class="btn btn-primary mb-4"
-  >Ajouter un paiement</a
->
 
 {% if paiements %}
 <table class="table table-striped table-bordered">
@@ -33,16 +28,6 @@
           href="{% url 'paiement_detail' paiement.pk %}"
           class="btn btn-sm btn-outline-info"
           >Voir</a
-        >
-        <a
-          href="{% url 'paiement_update' paiement.pk %}"
-          class="btn btn-sm btn-outline-warning"
-          >Modifier</a
-        >
-        <a
-          href="{% url 'paiement_delete' paiement.pk %}"
-          class="btn btn-sm btn-outline-danger"
-          >Supprimer</a
         >
       </td>
     </tr>

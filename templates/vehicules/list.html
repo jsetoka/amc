@@ -31,16 +31,6 @@
           class="btn btn-sm btn-outline-info"
           >Voir</a
         >
-        <a
-          href="{% url 'vehicle_update' vehicle.pk %}"
-          class="btn btn-sm btn-outline-warning"
-          >Modifier</a
-        >
-        <a
-          href="{% url 'vehicle_delete' vehicle.pk %}"
-          class="btn btn-sm btn-outline-danger"
-          >Supprimer</a
-        >
         {% if vehicle.diagnostic_set.count > 0 %}
           <a
             href="{% url 'diagnostic_list_par_vehicule' vehicle.pk %}"
