@@ -1,0 +1,131 @@
+{% extends 'base.html' %} {% block content %}
+<style>
+.message-bubble {
+  max-width: 100%;
+  padding: 10px 15px;
+  border-radius: 15px;
+  background-color: #f1f0f0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  word-wrap: break-word;
+  display: inline-block;
+}
+
+.message-bubble.me {
+  background-color: #dcf8c6;
+  align-self: flex-end;
+  margin-left: auto;
+  text-align: left;
+}
+
+.message-bubble.them {
+  background-color: #fff;
+  margin-right: auto;
+  text-align: left;
+}
+</style>
+
+
+
+
+
+<h2>Discussion avec {{ recipient }}</h2>
+
+<div id="chat-box" class="p-3" style="height: 400px; overflow-y: auto;">
+  {% for message in messages %}
+    {% if not message.parent %}
+      {% include "chat/message_bubble.html" with message=message %}
+    {% endif %}
+  {% endfor %}
+</div>
+
+
+
+<form id="chat-form" enctype="multipart/form-data">
+  {% csrf_token %}
+  <input type="hidden" name="parent_id" id="parent_id">
+  <div id="reply-preview" class="alert alert-info d-none">
+    En réponse à : <span id="reply-text"></span>
+    <button type="button" class="btn-close float-end" onclick="cancelReply()"></button>
+  </div>
+  <textarea type="text" name="message" placeholder="Votre message..." class="form-control mb-2" required></textarea>
+  <input type="file" name="fichier" id="fichier-input" class="form-control mb-2" accept=".pdf,image/png,image/jpeg">
+  <button type="submit" class="btn btn-primary">Envoyer</button>
+</form>
+
+<!-- Barre de progression -->
+<div class="progress mt-2" style="height: 20px; display: none;">
+  <div class="progress-bar" role="progressbar" style="width: 0%">0%</div>
+</div>
+
+
+<script>
+document.getElementById("chat-form").addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  const form = event.target;
+  const url = window.location.href;
+  const formData = new FormData(form);
+  const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("X-CSRFToken", csrfToken);
+  xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+
+  const progressBar = document.querySelector(".progress-bar");
+  const progressContainer = document.querySelector(".progress");
+  progressContainer.style.display = "block";
+
+  xhr.upload.onprogress = function(e) {
+    if (e.lengthComputable) {
+      const percent = Math.round((e.loaded / e.total) * 100);
+      progressBar.style.width = percent + "%";
+      progressBar.textContent = percent + "%";
+    }
+  };
+
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      const data = JSON.parse(xhr.responseText);
+      const chatBox = document.getElementById("chat-box");
+
+      // Création du nouveau message HTML
+      const newMsg = document.createElement("p");
+
+      console.log(newMsg)
+
+      newMsg.innerHTML = `<strong>${data.sender}</strong> : ${data.content || ''}` +
+                         (data.file_url ? `<br>📎 <a href="${data.file_url}" target="_blank">Fichier</a>` : '');
+      chatBox.appendChild(newMsg);
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      form.reset();  // vide le formulaire
+      progressBar.style.width = "0%";
+      progressBar.textContent = "0%";
+      progressContainer.style.display = "none";
+    } else {
+      alert("Une erreur est survenue.");
+    }
+  };
+
+  xhr.send(formData);
+});
+
+
+document.querySelectorAll('.reply-btn').forEach(button => {
+  button.addEventListener('click', function() {
+    const msgId = this.dataset.id;
+    const msgContent = this.dataset.content;
+
+    document.getElementById('parent_id').value = msgId;
+    document.getElementById('reply-text').textContent = msgContent;
+    document.getElementById('reply-preview').classList.remove('d-none');
+  });
+});
+
+function cancelReply() {
+  document.getElementById('parent_id').value = '';
+  document.getElementById('reply-preview').classList.add('d-none');
+}
+</script>
+{% endblock %}

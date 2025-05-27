@@ -1,0 +1,26 @@
+<div class="mb-2" style="margin-left: {% if message.parent %}40px{% else %}0{% endif %};">
+  <div class="message-bubble {% if message.sender == request.user %}me{% else %}them{% endif %}">
+    
+    {% if message.parent %}
+      <div class="reply-preview text-muted small border-start ps-2 mb-2">
+        ↪️ <em>{{ message.parent.sender.username }}</em> : "{{ message.parent.content }}"
+      </div>
+    {% endif %}
+
+    <div>{{ message.content }}</div>
+
+    {% if message.fichier %}
+      <div><a href="{{ message.fichier.url }}" target="_blank">📎 Fichier</a></div>
+    {% endif %}
+
+    <div class="small text-muted mt-1 text-end">{{ message.timestamp|date:"H:i" }}</div>
+
+    <button class="btn btn-sm btn-link reply-btn text-decoration-none text-primary p-0"
+            data-id="{{ message.id }}"
+            data-content="{{ message.content }}">↩️ Répondre</button>
+    
+    {% for reply in message.reponses.all %}
+      {% include "chat/message_bubble.html" with message=reply %}
+    {% endfor %}
+  </div>
+</div>

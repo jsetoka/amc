@@ -14,3 +14,4 @@ from . import protocole_views
 from . import paiement_views
 from . import accounts_views
 from . import abonnement_views
+from . import chat_views

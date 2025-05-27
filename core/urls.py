@@ -64,5 +64,8 @@ urlpatterns = [
     path('protocoles/<int:pk>/supprimer-fichier/', protocole_views.protocole_delete_file, name='protocole_delete_file'),
     path('protocoles/<int:pk>/modifier-fichier/', protocole_views.protocole_update_file, name='protocole_update_file'),
 
- 
+
+    path('chat/', chat_views.chat_view, name='chat'),
+    path('chat/<str:username>/', chat_views.chat_view, name='chat'),
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
