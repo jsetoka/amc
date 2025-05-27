@@ -11,7 +11,7 @@ from django.core.paginator import Paginator
 def abonnement_list_par_vehicule(request, vehicule_id):
     vehicule = get_object_or_404(Vehicule, pk=vehicule_id, utilisateur=request.user)
     abonnements = Abonnement.objects.filter(vehicule=vehicule).order_by('-date_debut')
-    paginator = Paginator(abonnements, 10 )  # 5 abonnements par page
+    paginator = Paginator(abonnements, 5 )  # 5 abonnements par page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     titre = 'Les abonnements du véhicule ' + vehicule.marque + ' ' + vehicule.modele + ' - ' + vehicule.numero_chassis

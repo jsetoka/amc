@@ -2,11 +2,7 @@
 <h2>Détails du véhicule</h2>
 <p><strong>Date début :</strong> {{ abonnements.date_debut }}</p>
 <p><strong>Type :</strong> {{ abonnements.type }}</p>
-<p><strong>Actif :</strong> {{ abonnements.actif }}</p>
+<p><strong>Montant :</strong> {{ abonnements.montant }}</p>
+<p><strong>Actif :</strong> {{ abonnements.actif }}</p>  
 
-<a href="{% url 'abonnement_update' abonnements.pk %}" class="btn btn-warning"
-  >Modifier</a
->
-<a href="{% url 'abonnement_delete' abonnements.pk %}" class="btn btn-danger">Supprimer</a
->
 {% endblock %}

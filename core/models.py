@@ -1,6 +1,7 @@
 
 # Create your models here.
 from django.db import models
+from django.contrib.humanize.templatetags.humanize import intcomma
 
 # Create your models here.
 from django.contrib.auth.models import User
@@ -22,7 +23,8 @@ class TypeAbonnement(models.Model):
     duree = models.PositiveIntegerField()
 
     def __str__(self):
-        return f"{self.type} - {self.montant}"
+        montant = intcomma(int(self.montant))
+        return f"{self.type} - {montant}"
     
 class Abonnement(models.Model):
     METHODE_CHOIX = [
@@ -54,7 +56,7 @@ class Paiement(models.Model):
     statut = models.CharField(max_length=20)
 
     def __str__(self):
-        return f"Paiement {self.montant} - {self.methode} ({self.statut})"
+        return f"Paiement {self.montant|floatformat:0} - {self.methode} ({self.statut})"
 
 class Diagnostic(models.Model):
     vehicule = models.ForeignKey(Vehicule, on_delete=models.CASCADE)
