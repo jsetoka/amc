@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Montant de {{ abonnement.type.montant }} en attente de confirmation de paiement...</h1>
+  <p>Ne quittez pas cette page.</p>
+
+  <script>
+    // Affiche le message, attend 3 secondes, puis affiche l'alerte et redirige
+    setTimeout(function() {
+      alert("⏳ Montant en attente de paiement !");
+      window.location.href = "/abonnements/";
+    }, 3000); // 3000 ms = 3 secondes
+  </script>
+{% endblock %}

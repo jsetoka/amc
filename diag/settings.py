@@ -50,6 +50,7 @@ else:
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'core.apps.CoreConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -93,28 +94,28 @@ WSGI_APPLICATION = 'diag.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'diagnostic',
-        'USER': 'diagnostic_user',
-        'PASSWORD':'fpbeX471BNVOjyNvYgydHiE6yVpLtONH',
-        'HOST':'dpg-d0q49huuk2gs73a7omd0-a',
-        'PORT':'5432'
-    },
-    'MySQL': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'diagnostic',
-        'USER': 'root',
-        'PASSWORD':'12345678',
-        'HOST':'localhost',
-        'PORT':'3306'
-    },
-    'sqlite': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if os.environ.get('RENDER'):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'diagnostic',
+            'USER': 'diagnostic_user',
+            'PASSWORD':'fpbeX471BNVOjyNvYgydHiE6yVpLtONH',
+            'HOST':'dpg-d0q49huuk2gs73a7omd0-a',
+            'PORT':'5432'
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'diagnostic',
+            'USER': 'root',
+            'PASSWORD':'12345678',
+            'HOST':'localhost',
+            'PORT':'3306'
+        },
+    }
 
 
 # Password validation
@@ -185,3 +186,22 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Pour dévelo
 URL_SITE = "https://sandbox.momodeveloper.mtn.com"
 API_KEY_MOMO = "e852d8d258d94b1fb2061d0415716e57"
 
+JAZZMIN_SETTINGS = {
+    "site_title": "AMC - Admin",
+    "site_header": "AM Condulting - Congo",
+    "site_brand": "AMC",
+    "welcome_sign": "Bienvenue dans l'espace AMC",
+    "copyright": "AMC 2025",
+    "logo": "images/logo-amc.png",  # Ton logo (doit être dans /static/images/)
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "hide_apps": [],
+    "order_with_respect_to": ["auth", "core"],
+    "custom_links": {},
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
+    },
+    "changeform_format": "horizontal_tabs",
+}

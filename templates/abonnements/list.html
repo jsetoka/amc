@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% block content %}
-<h2 class="mb-4">Mes abonnements</h2>
+<h2 class="mb-4">{{ titre }}</h2>
 
 <a href="{% url 'abonnement_create' %}" class="btn btn-primary mb-4"
   >Ajouter un abonnement</a
@@ -14,6 +14,7 @@
       <th>Date début</th>
       <th>Date fin</th>
       <th>Type</th>
+      <th>Montant</th>
       <th>Actif ?</th>
       <th>Actions</th>
     </tr>
@@ -25,7 +26,8 @@
       <td>{{ abonnement.vehicule }}</td>
       <td>{{ abonnement.date_debut|date:"j F Y" }}</td>
       <td>{{ abonnement.date_fin|date:"j F Y" }}</td>
-      <td>{{ abonnement.type }}</td>
+      <td>{{ abonnement.type.type }}</td>
+      <td>{{ abonnement.montant }}</td>
       <td>{{ abonnement.actif }}</td>
       <td>
         <a
@@ -43,16 +45,54 @@
           class="btn btn-sm btn-outline-danger"
           >Supprimer</a
         >
-        <a
-          href="{% url 'paiement_list_par_abonnement' abonnement.pk %}"
-          class="btn btn-sm btn-outline-danger"
-          >Paiements</a
-        >
+        {% if abonnement.paiement %}
+          <a
+            href="{% url 'paiement_list_par_abonnement' abonnement.pk %}"
+            class="btn btn-sm btn-outline-danger"
+            >Paiements</a
+          >
+        {% endif %}
       </td>
     </tr>
     {% endfor %}
   </tbody>
 </table>
+<nav>
+  <ul class="pagination justify-content-center">
+    {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Précédent</a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <span class="page-link">Précédent</span>
+      </li>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+      {% if page_obj.number == num %}
+        <li class="page-item active">
+          <span class="page-link">{{ num }}</span>
+        </li>
+      {% else %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+        </li>
+      {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Suivant</a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <span class="page-link">Suivant</span>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
+
 {% else %}
 <p>Aucun abonnement enregistré.</p>
 {% endif %} {% endblock %}

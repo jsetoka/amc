@@ -39,22 +39,40 @@
 </form>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const radios = document.querySelectorAll('input[name="methode_paiement"]');
+  function togglePhoneField() {
+    const selected = document.querySelector('input[name="methode_paiement"]:checked');
     const phoneField = document.getElementById("phone-field");
+    const phoneInput = document.getElementById("id_phone");
+    console.log(phoneInput);
+    if (!selected) return;
 
-    function togglePhoneField() {
-      const selected = document.querySelector('input[name="methode_paiement"]:checked');
-      if (selected && selected.value === "mtn") {
-        phoneField.style.display = "block";
-      } else {
-        phoneField.style.display = "none";
-      }
+    if (selected.value === "mtn") {
+      phoneField.style.display = "block";
+      phoneField.querySelector("label").textContent = "Numéro MTN MoMo :";
+      phoneInput.placeholder = "06xxxxxxx";
+      phoneInput.maxLength = 9;
+      phoneInput.pattern = "06[0-9]{7}";
+    } else if (selected.value === "airtel") {
+      phoneField.style.display = "block";
+      phoneField.querySelector("label").textContent = "Numéro Airtel Money :";
+      phoneInput.placeholder = "04xxxxxxx ou 05xxxxxxx";
+      phoneInput.maxLength = 9;
+      phoneInput.pattern = "0[45][0-9]{7}";
+    } else {
+      phoneField.style.display = "none";
+      phoneInput.placeholder = "";
+      phoneInput.removeAttribute("pattern");
+      phoneInput.removeAttribute("maxLength");
     }
+  }
 
-    togglePhoneField();
-    radios.forEach(radio => radio.addEventListener("change", togglePhoneField));
+  document.addEventListener("DOMContentLoaded", () => {
+    togglePhoneField();  // Affiche le champ si déjà sélectionné
+    document.querySelectorAll('input[name="methode_paiement"]').forEach(radio => {
+      radio.addEventListener("change", togglePhoneField);
+    });
   });
 </script>
+
 
 {% endblock %}

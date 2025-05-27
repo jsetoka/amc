@@ -13,3 +13,5 @@ gunicorn
 mysqlclient
 psycopg2-binary
 requests
+django-jazzmin
+

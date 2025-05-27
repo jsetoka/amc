@@ -54,6 +54,10 @@ def paiement_en_cours(request, abonnement_id):
     abonnement = get_object_or_404(Abonnement, id=abonnement_id)
     return render(request, 'paiements/paiement_en_cours.html', {'abonnement': abonnement})
 
+def paiement_en_attente(request, abonnement_id):
+    abonnement = get_object_or_404(Abonnement, id=abonnement_id)
+    return render(request, 'paiements/paiement_en_attente.html', {'abonnement': abonnement})
+
 def verifier_paiement(request, abonnement_id):
     try:
         abonnement = Abonnement.objects.get(id=abonnement_id)

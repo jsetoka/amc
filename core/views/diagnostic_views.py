@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from core.form import DiagnosticForm
 from core.models import Diagnostic, Vehicule
+from django.core.paginator import Paginator
 
 ################################################################################
 
@@ -10,9 +11,9 @@ from core.models import Diagnostic, Vehicule
 
 def diagnostic_list_par_vehicule(request, vehicule_id):
     vehicule = get_object_or_404(Vehicule, pk=vehicule_id, utilisateur=request.user)
-    diagnostics = Diagnostic.objects.filter(vehicule=vehicule)
+    diagnostics = Diagnostic.objects.filter(vehicule=vehicule).order_by('-date_envoi')
 
-    paginator = Paginator(diagnostics, 5)  # 5 diagnostics par page
+    paginator = Paginator(diagnostics, 10)  # 5 diagnostics par page
 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)

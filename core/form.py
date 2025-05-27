@@ -88,6 +88,8 @@ class AbonnementForm(forms.ModelForm):
 
         if methode == "mtn" and not phone:
             self.add_error("phone", "Le numéro MTN MoMo est requis pour ce mode de paiement.")
+        if methode == "airtel" and not phone:
+            self.add_error("phone", "Le numéro Airtel Money est requis pour ce mode de paiement.")
 
 
 class PaiementForm(forms.ModelForm):

@@ -36,6 +36,7 @@ class Abonnement(models.Model):
     type = models.ForeignKey(TypeAbonnement, on_delete=models.CASCADE)
     date_debut = models.DateField(auto_now_add=True)
     date_fin = models.DateField(blank=True, null=True)  # ✅ nouveau champ
+    montant = models.DecimalField(max_digits=8, decimal_places=2, null=True)
     actif = models.BooleanField(default=False)
     apiuser = models.CharField(max_length=100, blank=True, null=True)
     token = models.TextField(blank=True, null=True)
@@ -46,7 +47,7 @@ class Abonnement(models.Model):
 
 
 class Paiement(models.Model):
-    abonnement = models.ForeignKey(Abonnement, on_delete=models.CASCADE)
+    abonnement = models.OneToOneField(Abonnement, on_delete=models.CASCADE)
     montant = models.DecimalField(max_digits=8, decimal_places=2)
     date = models.DateTimeField(auto_now_add=True)
     methode = models.CharField(max_length=20)

@@ -7,8 +7,14 @@ from core.form import VehicleForm
 ################################################################################
 @login_required
 def vehicle_list(request):
-    vehicles = Vehicule.objects.filter(utilisateur=request.user)
-    return render(request, 'vehicules/list.html', {'vehicles': vehicles})  
+    vehicles = Vehicule.objects.filter(utilisateur=request.user).order_by('marque','modele')
+    paginator = Paginator(vehicles, 10 )  # 5 abonnements par page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'vehicules/list.html', {
+      'vehicles': page_obj,
+      'page_obj': page_obj
+    })  
 
 #@user_passes_test(is_client, login_url='login')
 def vehicle_detail(request, pk):

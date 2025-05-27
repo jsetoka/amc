@@ -42,6 +42,7 @@ urlpatterns = [
     path('paiements/<int:pk>/modifier/', paiement_views.paiement_update, name='paiement_update'),
     path('paiements/<int:pk>/supprimer/', paiement_views.paiement_delete, name='paiement_delete'),
     path('paiement_en_cours/<int:abonnement_id>/', paiement_views.paiement_en_cours, name='paiement_en_cours'),
+    path('paiement_en_attente/<int:abonnement_id>/', paiement_views.paiement_en_attente, name='paiement_en_attente'),
     path('api/verifier_paiement/<int:abonnement_id>/', paiement_views.verifier_paiement, name='verifier_paiement'),
 
 
