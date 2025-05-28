@@ -1,8 +1,29 @@
-{% extends 'base.html' %} {% block content %} {% load humanize %}
-<h2>Détails du paiement</h2>
-<p><strong>Date paiement :</strong> {{ paiements.date }}</p>
-<p><strong>Montant :</strong> {{ paiements.montant|floatformat:0|intcomma }}</p>
-<p><strong>Méthode :</strong> {{ paiements.methode }}</p>
-<p><strong>Actif :</strong> {{ paiements.statut }}</p>
+{% extends 'base.html' %}
+{% load humanize %}
+{% block content %}
+
+<div class="container mt-4">
+  <h2 class="mb-4">🧾 Détails du paiement</h2>
+
+  <div class="border rounded p-4 bg-light shadow-sm">
+    <p><strong>📅 Date de paiement :</strong> {{ paiements.date|date:"j F Y" }}</p>
+    <p><strong>💰 Montant :</strong> {{ paiements.montant|floatformat:0|intcomma }} FCFA</p>
+    <p><strong>💳 Méthode :</strong> {{ paiements.methode|title }}</p>
+    <p>
+      <strong>✅ Statut :</strong>
+      {% if paiements.statut == "validé" or paiements.statut == "payé" %}
+        <span class="text-success fw-bold">Payé</span>
+      {% elif paiements.statut == "en attente" %}
+        <span class="text-warning fw-bold">En attente</span>
+      {% else %}
+        <span class="text-danger fw-bold">{{ paiements.statut }}</span>
+      {% endif %}
+    </p>
+  </div>
+
+  <a href="{% url 'paiement_list_par_abonnement' paiements.abonnement.pk %}" class="btn btn-secondary mt-3">
+    ← Retour à la liste des paiements
+  </a>
+</div>
 
 {% endblock %}

@@ -92,8 +92,6 @@ document.getElementById("chat-form").addEventListener("submit", function(event) 
       // Création du nouveau message HTML
       const newMsg = document.createElement("p");
 
-      console.log(newMsg)
-
       newMsg.innerHTML = `<strong>${data.sender}</strong> : ${data.content || ''}` +
                          (data.file_url ? `<br>📎 <a href="${data.file_url}" target="_blank">Fichier</a>` : '');
       chatBox.appendChild(newMsg);
