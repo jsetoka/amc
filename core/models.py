@@ -56,7 +56,7 @@ class Paiement(models.Model):
     statut = models.CharField(max_length=20)
 
     def __str__(self):
-        return f"Paiement {self.montant|floatformat:0} - {self.methode} ({self.statut})"
+        return f"Paiement {self.montant:.0f} - {self.methode} ({self.statut})"
 
 class Diagnostic(models.Model):
     vehicule = models.ForeignKey(Vehicule, on_delete=models.CASCADE)
