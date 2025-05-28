@@ -12,6 +12,8 @@ urlpatterns = [
     path('accounts/signup/', accounts_views.inscription, name='signup'),
     path('accounts/logout/', accounts_views.deconnexion, name='logout'),
     path('accounts/profile/', accounts_views.profile, name='profile'),
+    path('accounts/changer-mot-de-passe/', accounts_views.change_password, name='change_password'),
+    path('accounts/mot-de-passe-change/', accounts_views.password_change_done, name='password_change_done'),
 
  #   path('accounts/login/', auth_views.LoginView.as_view(), name='login'),
  #   path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
@@ -20,7 +22,6 @@ urlpatterns = [
     path('mot-de-passe-envoye/', auth_views.PasswordResetDoneView.as_view(template_name='registration/password_reset_done.html'), name='password_reset_done'),
     path('reinitialiser/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='registration/password_reset_confirm.html'), name='password_reset_confirm'),
     path('reinitialisation-terminee/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete.html'), name='password_reset_complete'),
-
 
     path('vehicules/', vehicule_views.vehicle_list, name='vehicle_list'),
     path('vehicules/ajouter/', vehicule_views.vehicle_create, name='vehicle_create'),

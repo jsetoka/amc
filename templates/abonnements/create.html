@@ -1,53 +1,64 @@
 {% extends 'base.html' %}
+{% load form_filters %}
 
 {% block content %}
-<div class="container mt-4">
-  <h2 class="mb-4">
-    {% if abonnement %}Modifier{% else %}Souscrire à{% endif %} un abonnement
-  </h2>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4 bg-light rounded">
+          <h2 class="mb-4 text-center text-primary">
+            {% if abonnement %}Modifier{% else %}Souscrire à{% endif %} un abonnement
+          </h2>
 
-  <form method="post" enctype="multipart/form-data" class="p-4 border rounded bg-light shadow-sm">
-    {% csrf_token %}
+          <form method="post" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
 
-    <div class="mb-3">
-      <label for="{{ form.vehicule.id_for_label }}" class="form-label">Véhicule :</label>
-      {{ form.vehicule }}
-      {% if form.vehicule.errors %}
-        <div class="text-danger small">{{ form.vehicule.errors }}</div>
-      {% endif %}
-    </div>
+            <div class="mb-3">
+              <label for="{{ form.vehicule.id_for_label }}" class="form-label">Véhicule</label>
+              {{ form.vehicule|add_class:"form-select" }}
+              {% if form.vehicule.errors %}
+                <div class="text-danger small">{{ form.vehicule.errors }}</div>
+              {% endif %}
+            </div>
 
-    <div class="mb-3">
-      <label for="{{ form.type.id_for_label }}" class="form-label">Type d’abonnement :</label>
-      {{ form.type }}
-      {% if form.type.errors %}
-        <div class="text-danger small">{{ form.type.errors }}</div>
-      {% endif %}
-    </div>
+            <div class="mb-3">
+              <label for="{{ form.type.id_for_label }}" class="form-label">Type d’abonnement</label>
+              {{ form.type|add_class:"form-select" }}
+              {% if form.type.errors %}
+                <div class="text-danger small">{{ form.type.errors }}</div>
+              {% endif %}
+            </div>
 
-    <div class="mb-3">
-      <label class="form-label">Méthode de paiement :</label>
-      {% for radio in form.methode_paiement %}
-        <div class="form-check">
-          {{ radio.tag }}
-          <label class="form-check-label">{{ radio.choice_label }}</label>
+            <div class="mb-3">
+              <label class="form-label">Méthode de paiement</label>
+              {% for radio in form.methode_paiement %}
+                <div class="form-check">
+                  {{ radio.tag }}
+                  <label class="form-check-label">{{ radio.choice_label }}</label>
+                </div>
+              {% endfor %}
+              {% if form.methode_paiement.errors %}
+                <div class="text-danger small">{{ form.methode_paiement.errors }}</div>
+              {% endif %}
+            </div>
+
+            <div class="mb-3" id="phone-field" style="display: none;">
+              <label for="{{ form.phone.id_for_label }}" class="form-label">Téléphone</label>
+              {{ form.phone|add_class:"form-control" }}
+              {% if form.phone.errors %}
+                <div class="text-danger small">{{ form.phone.errors }}</div>
+              {% endif %}
+            </div>
+
+            <div class="text-center">
+              <button type="submit" class="btn btn-success mt-3">Enregistrer</button>
+            </div>
+          </form>
         </div>
-      {% endfor %}
-      {% if form.methode_paiement.errors %}
-        <div class="text-danger small">{{ form.methode_paiement.errors }}</div>
-      {% endif %}
+      </div>
     </div>
-
-    <div class="mb-3" id="phone-field" style="display: none;">
-      <label for="{{ form.phone.id_for_label }}" class="form-label">Téléphone :</label>
-      {{ form.phone }}
-      {% if form.phone.errors %}
-        <div class="text-danger small">{{ form.phone.errors }}</div>
-      {% endif %}
-    </div>
-
-    <button type="submit" class="btn btn-success mt-3">Enregistrer</button>
-  </form>
+  </div>
 </div>
 
 <script>
