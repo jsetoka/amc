@@ -1,5 +1,4 @@
-{% extends 'base.html' %} {% block content %}
-{% load humanize %}
+{% extends 'base.html' %} {% block content %} {% load humanize %}
 <h2>Détails du paiement</h2>
 <p><strong>Date paiement :</strong> {{ paiements.date }}</p>
 <p><strong>Montant :</strong> {{ paiements.montant|floatformat:0|intcomma }}</p>

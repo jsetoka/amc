@@ -1,5 +1,13 @@
-{% extends 'base.html' %} {% block content %}
-<h2>{% if abonnement %}Modifier{% else %}Ajouter{% endif %} un abonnement</h2>
+{% extends 'base.html' %}
+{% block content %}
+<h2>
+  {% if abonnement %}
+  Modifier
+  {% else %}
+  Ajouter
+  {% endif %}
+   un abonnement
+</h2>
 <form method="post">
   {% csrf_token %} {{ form.as_p }}
   <button type="submit" class="btn btn-success">Enregistrer</button>

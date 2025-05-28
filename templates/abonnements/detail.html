@@ -1,8 +1,48 @@
-{% extends 'base.html' %} {% block content %}
-<h2>Détails du véhicule</h2>
-<p><strong>Date début :</strong> {{ abonnements.date_debut }}</p>
-<p><strong>Type :</strong> {{ abonnements.type }}</p>
-<p><strong>Montant :</strong> {{ abonnements.montant }}</p>
-<p><strong>Actif :</strong> {{ abonnements.actif }}</p>  
+{% extends 'base.html' %}
+{% load humanize %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4 text-primary">Détails de l'abonnement</h2>
 
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <p class="mb-2">
+        <strong>Véhicule :</strong>
+        {{ abonnements.vehicule }}
+      </p>
+      <p class="mb-2">
+        <strong>Date de début :</strong>
+        {{ abonnements.date_debut|date:"d F Y" }}
+      </p>
+      <p class="mb-2">
+        <strong>Date de fin :</strong>
+        {% if abonnements.date_fin %}
+          {{ abonnements.date_fin|date:"d F Y" }}
+        {% else %}
+          <span class="text-muted">Non défini</span>
+        {% endif %}
+      </p>
+      <p class="mb-2">
+        <strong>Type d’abonnement :</strong>
+        {{ abonnements.type.type|title }}
+      </p>
+      <p class="mb-2">
+        <strong>Montant :</strong>
+        {{ abonnements.montant|floatformat:0|intcomma }} FCFA
+      </p>
+      <p class="mb-2">
+        <strong>Statut :</strong>
+        {% if abonnements.actif %}
+          <span class="badge bg-success">✅ Actif</span>
+        {% else %}
+          <span class="badge bg-danger">❌ Inactif</span>
+        {% endif %}
+      </p>
+    </div>
+  </div>
+
+  <a href="{% url 'abonnement_list' %}" class="btn btn-outline-secondary mt-3">
+    ← Retour à la liste
+  </a>
+</div>
 {% endblock %}

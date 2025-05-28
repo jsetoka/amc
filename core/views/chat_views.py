@@ -14,8 +14,6 @@ def chat_view(request, username=None):
         fichier = request.FILES.get("fichier")
         parent_id = request.POST.get("parent_id")
 
-
-        print('ELEN', parent_id)
         parent = Message.objects.filter(id=parent_id).first() if parent_id else None
 
         message = Message.objects.create(
@@ -37,7 +35,6 @@ def chat_view(request, username=None):
 
     # messages à afficher
     messages = []
-    print(recipient, 'jojo')
     if recipient:
         messages = Message.objects.filter(
             sender__in=[request.user, recipient],

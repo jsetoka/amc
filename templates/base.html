@@ -40,7 +40,6 @@
           <ul class="navbar-nav ms-auto">
             {% if user.is_authenticated %}
 
- 
             <li class="nav-item">
               <a class="nav-link" href="{% url 'vehicle_list' %}">Véhicules</a>
             </li>
@@ -55,7 +54,7 @@
               >
             </li>
 
-           <li class="nav-item dropdown">
+            <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle"
                 href="#"
@@ -66,14 +65,28 @@
               >
                 {{ user.username }}
               </a>
-              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="compteDropdown">
-                <li><a class="dropdown-item" href="{% url 'profile' %}">Mon profil</a></li>
-                <li><a class="dropdown-item" href="{% url 'password_change' %}">Changer le mot de passe</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="{% url 'logout' %}">Déconnexion</a></li>
+              <ul
+                class="dropdown-menu dropdown-menu-end"
+                aria-labelledby="compteDropdown"
+              >
+                <li>
+                  <a class="dropdown-item" href="{% url 'profile' %}"
+                    >Mon profil</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'password_change' %}"
+                    >Changer le mot de passe</a
+                  >
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'logout' %}"
+                    >Déconnexion</a
+                  >
+                </li>
               </ul>
             </li>
-
 
             {% else %}
             <li class="nav-item">
@@ -150,7 +163,11 @@
         </div>
 
         <div class="text-center mt-4">
-          <small>© {{ now.year }} <a href="https://kerenes-digital.com">Kerene's Digital</a>. Tous droits réservés.</small>
+          <small
+            >© {{ now.year }}
+            <a href="https://kerenes-digital.com">Kerene's Digital</a>. Tous
+            droits réservés.</small
+          >
         </div>
       </div>
     </footer>

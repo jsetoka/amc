@@ -1,14 +1,27 @@
-{% extends 'base.html' %} {% block content %}
-<h2>Détails du véhicule</h2>
-<p><strong>Marque :</strong> {{ vehicle.marque }}</p>
-<p><strong>Modèle :</strong> {{ vehicle.modele }}</p>
-<p><strong>Numéro de chassis :</strong> {{ vehicle.numero_chassis }}</p>
-<p><strong>Année :</strong> {{ vehicle.annee }}</p>
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4 text-primary">Détails du véhicule</h2>
 
-<a href="{% url 'vehicle_update' vehicle.pk %}" class="btn btn-warning"
-  >Modifier</a
->
-<a href="{% url 'vehicle_delete' vehicle.pk %}" class="btn btn-danger"
-  >Supprimer</a
->
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <p class="mb-2"><strong>Marque :</strong> {{ vehicle.marque }}</p>
+      <p class="mb-2"><strong>Modèle :</strong> {{ vehicle.modele }}</p>
+      <p class="mb-2"><strong>Numéro de châssis :</strong> {{ vehicle.numero_chassis }}</p>
+      <p class="mb-2"><strong>Année :</strong> {{ vehicle.annee }}</p>
+    </div>
+  </div>
+
+  <div class="mt-4 d-flex gap-2">
+    <a href="{% url 'vehicle_update' vehicle.pk %}" class="btn btn-warning">
+      ✏️ Modifier
+    </a>
+    <a href="{% url 'vehicle_delete' vehicle.pk %}" class="btn btn-danger">
+      🗑️ Supprimer
+    </a>
+    <a href="{% url 'vehicle_list' %}" class="btn btn-outline-secondary">
+      ← Retour à la liste
+    </a>
+  </div>
+</div>
 {% endblock %}

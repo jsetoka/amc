@@ -1,12 +1,22 @@
 {% extends 'base.html' %} {% block content %}
-<h2>{% if diagnostic %}
-  Modifier un diagnostic pour {{ diagnostic.vehicule.marque }} - {{ diagnostic.vehicule.numero_chassis }}
-  {% else %}
-  Ajouter un diagnostic pour {{ vehicule.marque }} - {{ vehicule.numero_chassis }}
-  {% endif %}
-</h2>
-<form method="post" enctype="multipart/form-data">
-  {% csrf_token %} {{ form.as_p }}
-  <button type="submit" class="btn btn-success">Enregistrer</button>
-</form>
+<div class="container mt-4">
+  <h2 class="mb-4">
+    {% if diagnostic %} Modifier le diagnostic pour
+    <span class="text-primary">{{ diagnostic.vehicule.marque }}</span> —
+    <span class="text-muted">{{ diagnostic.vehicule.numero_chassis }}</span>
+    {% else %} Ajouter un diagnostic pour
+    <span class="text-primary">{{ vehicule.marque }}</span> —
+    <span class="text-muted">{{ vehicule.numero_chassis }}</span>
+    {% endif %}
+  </h2>
+
+  <form
+    method="post"
+    enctype="multipart/form-data"
+    class="border p-4 rounded shadow-sm bg-light"
+  >
+    {% csrf_token %} {{ form.as_p }}
+    <button type="submit" class="btn btn-success mt-3">Enregistrer</button>
+  </form>
+</div>
 {% endblock %}
