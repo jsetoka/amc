@@ -12,7 +12,7 @@
 <h2>Détails du diagnostic du {{ diagnostic.date_envoi|date:"d/m/Y H:i" }}</h2>
 
 <p><strong>Véhicule :</strong> {{ diagnostic.vehicule }}</p>
-<p><strong>État :</strong> {{ diagnostic.etat }}</p>
+<p><strong>État :</strong> {{ diagnostic.get_etat_display }}</p>
 <p><strong>Fichier :</strong> 
   {% if diagnostic.fichier %}
   <a href="{{ diagnostic.fichier.url }}" target="_blank">Télécharger</a>

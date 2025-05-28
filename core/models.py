@@ -62,7 +62,7 @@ class Diagnostic(models.Model):
     vehicule = models.ForeignKey(Vehicule, on_delete=models.CASCADE)
     fichier = models.FileField(upload_to='media/diagnostics/')
     date_envoi = models.DateTimeField(auto_now_add=True)
-    etat = models.CharField(max_length=20, default='en_attente')
+    etat = models.CharField(max_length=20, choices=[('INIT', 'Initialisé'), ('PENDING', 'En cours'), ('DONE', 'Terminé')])
 
     def __str__(self):
         return f"Diagnostic de {self.vehicule} - {self.etat}"

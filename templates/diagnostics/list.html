@@ -24,7 +24,7 @@
       <tr>
         <td>{{ forloop.counter }}</td>
         <td>{{ diagnostic.date_envoi|date:"j F Y" }}</td>
-        <td>{{ diagnostic.etat }}</td>
+        <td>{{ diagnostic.get_etat_display }}</td>
         <td>{{ diagnostic.vehicule }}</td>
         <td>
           {% if diagnostic.fichier %}
