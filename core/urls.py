@@ -15,6 +15,9 @@ urlpatterns = [
     path('accounts/changer-mot-de-passe/', accounts_views.change_password, name='change_password'),
     path('accounts/mot-de-passe-change/', accounts_views.password_change_done, name='password_change_done'),
 
+
+    path('rendezvous/', rendezvous_views.rendezvous, name='rendezvous'),  # à créer
+
  #   path('accounts/login/', auth_views.LoginView.as_view(), name='login'),
  #   path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
 

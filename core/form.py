@@ -38,7 +38,7 @@ class CustomUserCreationForm(UserCreationForm):
 
 
 
-from core.models import Vehicule, Abonnement, Diagnostic, Paiement, Protocole
+from core.models import Vehicule, Abonnement, Diagnostic, Paiement, Protocole, Rendezvous   
 class VehicleForm(forms.ModelForm):
     class Meta:
         model = Vehicule
@@ -108,3 +108,32 @@ class ProtocoleForm(forms.ModelForm):
     class Meta:
         model = Protocole
         fields = ['fichier']
+        
+import re
+class RendezvousForm(forms.ModelForm):
+    class Meta:
+        model = Rendezvous
+        fields = ['nom', 'email', 'phone', 'immatriculation', 'date', 'message']
+        widgets = {
+            'date': forms.DateInput(attrs={'type': 'date'}),
+            'message': forms.Textarea(attrs={'rows': 3}),
+            'phone': forms.TextInput(attrs={
+                'placeholder': 'Ex: 0601234567',
+                'pattern': '(06|05|04)[0-9]{7}',
+                'title': 'Commence par 04, 05 ou 06 et contient 9 chiffres'
+            }),
+        }
+
+    def clean_phone(self):
+        phone = self.cleaned_data.get('phone')
+
+        # Nettoyage des espaces/blancs éventuels
+        phone = phone.replace(" ", "").strip()
+
+        # Expression régulière stricte : commence par 04, 05 ou 06 et suivi de 7 chiffres
+        if not re.fullmatch(r'^(06|05|04)\d{7}$', phone):
+            raise forms.ValidationError(
+                "Numéro invalide : doit commencer par 04, 05 ou 06 et comporter 9 chiffres."
+            )
+
+        return phone

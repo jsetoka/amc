@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+  <div class="container py-5">
+    <h2 class="mb-4">Planifier un diagnostic</h2>
+
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="hidden" name="motif" value="{{ motif }}">
+
+      <div class="d-flex justify-content-between align-items-center mt-4">
+        <button type="submit" class="btn btn-primary">Envoyer</button>
+
+        <a href="{% url 'index' %}" class="btn btn-outline-secondary">
+          &#8592; Retour à l'accueil
+        </a>
+      </div>
+    </form>
+  </div>
+{% endblock %}

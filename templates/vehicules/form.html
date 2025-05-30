@@ -10,6 +10,7 @@
           <h2 class="card-title mb-4 text-center text-primary">
             {% if object %}Modifier{% else %}Ajouter{% endif %} un véhicule
           </h2>
+
           <form method="post" novalidate>
             {% csrf_token %}
 
@@ -45,11 +46,15 @@
               {% endif %}
             </div>
 
-            <div class="text-center">
+            <!-- Boutons alignés -->
+            <div class="d-flex justify-content-between mt-4">
               <button type="submit" class="btn btn-success">Enregistrer</button>
+              <a href="{% url 'vehicle_list' %}" class="btn btn-outline-secondary">
+                &#8592; Retour
+              </a>
             </div>
-          </form>
 
+          </form>
         </div>
       </div>
     </div>

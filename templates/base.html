@@ -38,21 +38,15 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
+
+            <li class="nav-item"><a class="nav-link" href="{% url 'index' %}#services">Services</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'index' %}#how">Fonctionnement</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'index' %}#tarifs">Tarifs</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'rendezvous' %}">Rendez-vous</a></li>
+
+
             {% if user.is_authenticated %}
 
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'vehicle_list' %}">Véhicules</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'abonnement_list' %}"
-                >Abonnements</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'chat' 'admin' %}"
-                >Chat Support</a
-              >
-            </li>
 
             <li class="nav-item dropdown">
               <a
@@ -69,6 +63,22 @@
                 class="dropdown-menu dropdown-menu-end"
                 aria-labelledby="compteDropdown"
               >
+
+
+                <li>
+                  <a class="dropdown-item" href="{% url 'vehicle_list' %}">Mes véhicules</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'abonnement_list' %}"
+                    >Mes abonnements</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'chat' 'admin' %}"
+                    >Chat Support</a
+                  >
+                </li>
+                <li><hr class="dropdown-divider" /></li>
                 <li>
                   <a class="dropdown-item" href="{% url 'profile' %}"
                     >Mon profil</a

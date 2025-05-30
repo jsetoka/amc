@@ -89,3 +89,18 @@ class Message(models.Model):
 
     def __str__(self):
         return f"{self.sender.username} → {self.recipient.username} : {self.content[:30]}"
+
+
+from django.db import models
+
+class Rendezvous(models.Model):
+    nom = models.CharField(max_length=100)
+    email = models.EmailField()
+    phone = models.CharField(max_length=9, null=True)
+    immatriculation = models.CharField(max_length=50)
+    motif = models.CharField(max_length=100, null=True)
+    date = models.DateField()
+    message = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.nom} - {self.immatriculation} ({self.date})"
