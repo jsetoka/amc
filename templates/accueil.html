@@ -1,77 +1,68 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<div class="container py-3">
-  <!-- Hero section -->
-  <header class="bg-primary text-white text-center py-5">
+<div class="container-fluid p-0">
+  <!-- Hero Section -->
+  <section class="bg-primary text-white text-center py-5">
     <div class="container">
-      <h1>Diagnostic Automobile Intelligent</h1>
-      <p class="lead">Rapide, Fiable, Digitalisé</p>
-      <a href="{% url 'rendezvous' %}" class="btn btn-light btn-lg mt-3">Prendre un rendez-vous</a>
+      <h1 class="display-4 fw-bold">Diagnostic Automobile Intelligent</h1>
+      <p class="lead">Rapide. Fiable. Digitalisé.</p>
+      <a href="{% url 'rendezvous' %}" class="btn btn-light btn-lg mt-3 shadow">Prendre un rendez-vous</a>
     </div>
-  </header>
+  </section>
 
+  <!-- Véhicule à enregistrer -->
+  <section class="bg-white py-5 text-center">
+    <div class="container">
+      <h4 class="mb-3 fw-semibold text-dark">Vous avez un véhicule à enregistrer ?</h4>
+      <a href="{% url 'vehicle_create' %}" class="btn btn-success px-4 py-2 shadow-sm">
+        Enregistrer un véhicule
+      </a>
+    </div>
+  </section>
 
-  <hr class="my-5">
-
-  <div class="text-center">
-    <h4 class="mb-3 fw-semibold text-dark">Vous avez un véhicule à enregistrer ?</h4>
-    <a href="{% url 'vehicle_create' %}" class="btn btn-success px-4 py-2 shadow-sm">
-      Enregistrer un véhicule
-    </a>
-  </div>
-</div>
-
-
-
-{% load static %}
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AutoDiag+ | Diagnostic Véhicules</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body>
-
-  <!-- Services -->
+  <!-- Nos Services -->
   <section id="services" class="py-5 bg-light">
     <div class="container text-center">
       <h2 class="mb-4">Nos Services</h2>
-      <div class="row">
+      <div class="row g-4">
         <div class="col-md-4">
-          <h5>Diagnostic électronique</h5>
-          <p>Analyse complète du système embarqué.</p>
+          <div class="bg-white p-4 rounded shadow-sm h-100">
+            <h5>🔧 Diagnostic électronique</h5>
+            <p class="mb-0 text-muted">Analyse complète des systèmes embarqués.</p>
+          </div>
         </div>
         <div class="col-md-4">
-          <h5>Historique d’entretien</h5>
-          <p>Accédez à l’historique de vos réparations.</p>
+          <div class="bg-white p-4 rounded shadow-sm h-100">
+            <h5>📘 Historique d’entretien</h5>
+            <p class="mb-0 text-muted">Gardez une trace fiable de vos interventions.</p>
+          </div>
         </div>
         <div class="col-md-4">
-          <h5>Rapport en ligne</h5>
-          <p>Consultez vos résultats à tout moment.</p>
+          <div class="bg-white p-4 rounded shadow-sm h-100">
+            <h5>📄 Rapport en ligne</h5>
+            <p class="mb-0 text-muted">Vos diagnostics accessibles à tout moment.</p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Tarification et abonnements -->
-  <section id="tarifs" class="py-5 bg-light">
+  <!-- Tarifs et abonnements -->
+  <section id="tarifs" class="py-5 bg-white">
     <div class="container text-center">
       <h2 class="mb-4">Nos Tarifs & Abonnements</h2>
-      <p class="mb-5">Choisissez la formule qui vous convient : à la demande ou par abonnement.</p>
-
-      <div class="row">
-        <!-- Diagnostic à la demande -->
-        <div class="col-md-4 mb-4">
-          <div class="card h-100 shadow-sm">
+      <p class="text-muted mb-5">Choisissez la formule adaptée à vos besoins.</p>
+      <div class="row g-4">
+        <!-- À la demande -->
+        <div class="col-md-4">
+          <div class="card border-0 shadow h-100">
             <div class="card-body">
               <h5 class="card-title">Diagnostic à la Demande</h5>
-              <ul class="list-unstyled text-start">
+              <span class="badge bg-primary mb-2">Sans engagement</span>
+              <ul class="list-unstyled text-start small">
                 <li>✔️ Diagnostic électronique rapide</li>
-                <li>✔️ Sans engagement</li>
                 <li>✔️ Rapport en ligne</li>
               </ul>
               <h3 class="text-primary">5 000 - 25 000 FCFA</h3>
@@ -80,16 +71,17 @@
           </div>
         </div>
 
-        <!-- Abonnement Particulier -->
-        <div class="col-md-4 mb-4">
-          <div class="card h-100 shadow-sm border-success">
+        <!-- Particulier -->
+        <div class="col-md-4">
+          <div class="card border-success shadow h-100">
             <div class="card-body">
               <h5 class="card-title text-success">Abonnement Particulier</h5>
-              <ul class="list-unstyled text-start">
+              <span class="badge bg-success mb-2">Le plus populaire</span>
+              <ul class="list-unstyled text-start small">
                 <li>✔️ 4 diagnostics/an</li>
                 <li>✔️ Alertes d’entretien</li>
                 <li>✔️ Assistance prioritaire</li>
-                <li>✔️ Accès illimité aux rapports</li>
+                <li>✔️ Rapports illimités</li>
               </ul>
               <h3 class="text-success">35 000 FCFA/an</h3>
               <a href="{% url 'abonnement_create' %}?abonnement=particulier" class="btn btn-success mt-3">Souscrire</a>
@@ -97,18 +89,19 @@
           </div>
         </div>
 
-        <!-- Abonnement Garages -->
-        <div class="col-md-4 mb-4">
-          <div class="card h-100 shadow-sm border-warning">
+        <!-- Garages -->
+        <div class="col-md-4">
+          <div class="card border-warning shadow h-100">
             <div class="card-body">
               <h5 class="card-title text-warning">Abonnement Garages</h5>
-              <ul class="list-unstyled text-start">
+              <span class="badge bg-warning text-dark mb-2">Pro</span>
+              <ul class="list-unstyled text-start small">
                 <li>✔️ Jusqu’à 50 diagnostics/mois</li>
                 <li>✔️ Interface multi-véhicules</li>
                 <li>✔️ Gestion des clients</li>
-                <li>✔️ Support technique dédié</li>
+                <li>✔️ Support dédié</li>
               </ul>
-              <h3 class="text-warning">À partir de 150 000 FCFA/mois</h3>
+              <h3 class="text-warning">Dès 150 000 FCFA/mois</h3>
               <a href="{% url 'rendezvous' %}?motif=garage" class="btn btn-warning mt-3">Nous contacter</a>
             </div>
           </div>
@@ -117,23 +110,37 @@
     </div>
   </section>
 
-
-  <!-- Fonctionnement -->
-  <section id="how" class="py-5">
+  <!-- Comment ça marche -->
+  <section id="how" class="py-5 bg-light">
     <div class="container text-center">
       <h2 class="mb-4">Comment ça marche ?</h2>
-      <div class="row">
-        <div class="col-md-3"><strong>1.</strong> Inscription</div>
-        <div class="col-md-3"><strong>2.</strong> Enregistrement du véhicule</div>
-        <div class="col-md-3"><strong>3.</strong> Planification du diagnostic</div>
-        <div class="col-md-3"><strong>4.</strong> Rapport en ligne</div>
+      <div class="row g-4">
+        <div class="col-md-3">
+          <div class="p-3 bg-white rounded shadow-sm h-100">
+            <h4 class="text-primary">1</h4>
+            <p class="mb-0">Inscription</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="p-3 bg-white rounded shadow-sm h-100">
+            <h4 class="text-primary">2</h4>
+            <p class="mb-0">Enregistrement du véhicule</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="p-3 bg-white rounded shadow-sm h-100">
+            <h4 class="text-primary">3</h4>
+            <p class="mb-0">Planification du diagnostic</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="p-3 bg-white rounded shadow-sm h-100">
+            <h4 class="text-primary">4</h4>
+            <p class="mb-0">Rapport en ligne</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
-
-
-</body>
-</html>
-
-
+</div>
 {% endblock %}
