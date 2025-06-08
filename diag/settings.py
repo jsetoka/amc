@@ -112,14 +112,27 @@ if os.environ.get('RENDER'):
     }
 else:
     DATABASES = {
+        # 'default': {
+        #     'ENGINE': 'django.db.backends.mysql',
+        #     'NAME': 'diagnostic',
+        #     'USER': 'root',
+        #     'PASSWORD':'12345678',
+        #     'HOST':'localhost',
+        #     'PORT':'3306'
+        # },
+        # 'default': {
+        #     'ENGINE': 'django.db.backends.postgresql',
+        #     'NAME': 'diagnostic',
+        #     'USER': 'diagnostic_user',
+        #     'PASSWORD':'fpbeX471BNVOjyNvYgydHiE6yVpLtONH',
+        #     'HOST':'dpg-d0q49huuk2gs73a7omd0-a.oregon-postgres.render.com',
+        #     'PORT':'5432'
+        # }
+        
         'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'diagnostic',
-            'USER': 'root',
-            'PASSWORD':'12345678',
-            'HOST':'localhost',
-            'PORT':'3306'
-        },
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
 
 
