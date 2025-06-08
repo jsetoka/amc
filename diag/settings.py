@@ -97,13 +97,17 @@ WSGI_APPLICATION = 'diag.wsgi.application'
 
 if os.environ.get('RENDER'):
     DATABASES = {
+        # 'default': {
+        #     'ENGINE': 'django.db.backends.postgresql',
+        #     'NAME': 'diagnostic',
+        #     'USER': 'diagnostic_user',
+        #     'PASSWORD':'fpbeX471BNVOjyNvYgydHiE6yVpLtONH',
+        #     'HOST':'dpg-d0q49huuk2gs73a7omd0-a',
+        #     'PORT':'5432'
+        # }
         'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'diagnostic',
-            'USER': 'diagnostic_user',
-            'PASSWORD':'fpbeX471BNVOjyNvYgydHiE6yVpLtONH',
-            'HOST':'dpg-d0q49huuk2gs73a7omd0-a',
-            'PORT':'5432'
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
 else:
